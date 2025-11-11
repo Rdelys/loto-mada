@@ -60,11 +60,12 @@
       font-weight: bold;
       box-shadow: 0 4px 12px rgba(0, 91, 65, 0.3);
       transition: var(--transition);
+      transform-style: preserve-3d;
     }
 
     .logo-badge:hover {
-      transform: rotate(8deg) scale(1.05);
-      box-shadow: 0 6px 16px rgba(0, 91, 65, 0.4);
+      transform: rotateY(15deg) rotateX(8deg) scale(1.08);
+      box-shadow: 0 8px 20px rgba(0, 91, 65, 0.4);
     }
 
     /* === NAV LINKS === */
@@ -150,6 +151,28 @@
       100% { left: 125%; }
     }
 
+    /* === MENU MOBILE (nouveau) === */
+    #mobileMenu {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transform: scaleY(0.9);
+      transform-origin: top;
+      transition: all 0.4s ease;
+    }
+
+    #mobileMenu.active {
+      max-height: 500px;
+      opacity: 1;
+      transform: scaleY(1);
+    }
+
+    #menuToggle.active i {
+      transform: rotate(90deg);
+      color: var(--red);
+      transition: all 0.4s ease;
+    }
+
     /* === FOOTER === */
     footer {
       background-color: var(--dark);
@@ -205,17 +228,6 @@
       color: var(--green);
     }
 
-    .payment-logos img {
-      height: 30px;
-      margin-right: 12px;
-      filter: brightness(0.95);
-      transition: transform 0.3s ease;
-    }
-
-    .payment-logos img:hover {
-      transform: scale(1.1);
-    }
-
     .footer-bottom {
       text-align: center;
       font-size: 0.85rem;
@@ -229,7 +241,6 @@
       .footer-grid { text-align: center; }
       .footer-logo { justify-content: center; }
       .social-icons { justify-content: center; }
-      .payment-logos { justify-content: center; }
     }
   </style>
 </head>
@@ -267,7 +278,7 @@
       </div>
 
       <!-- Bouton mobile -->
-      <button id="menuToggle" class="lg:hidden text-2xl text-[var(--green)] focus:outline-none">
+      <button id="menuToggle" class="lg:hidden text-2xl text-[var(--green)] focus:outline-none transition-transform">
         <i class="fas fa-bars"></i>
       </button>
     </nav>
@@ -302,12 +313,6 @@
           <h3>Loto <span class="text-green-400">Mada</span></h3>
         </div>
         <p class="mt-3 text-gray-300">La plateforme n°1 de loterie et paris en ligne à Madagascar. Jouez, gagnez et vivez l’émotion du tirage en direct.</p>
-        <!-- <div class="payment-logos mt-4 flex items-center">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Orange_Money_logo.svg" alt="Orange Money" title="Paiement Orange Money">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Visa_2021.svg" alt="Visa" title="Paiement Visa">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" alt="MasterCard" title="Paiement MasterCard">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Airtel_Money_logo.svg" alt="Airtel Money" title="Paiement Airtel Money">
-        </div> -->
       </div>
 
       <div class="footer-links">
@@ -357,11 +362,8 @@
       });
 
       window.addEventListener('scroll', () => {
-        if (window.scrollY > 20) {
-          header.classList.add('scrolled');
-        } else {
-          header.classList.remove('scrolled');
-        }
+        if (window.scrollY > 20) header.classList.add('scrolled');
+        else header.classList.remove('scrolled');
       });
     });
   </script>
