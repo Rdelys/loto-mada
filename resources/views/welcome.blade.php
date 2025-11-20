@@ -1,264 +1,482 @@
 @extends('layouts.app')
 
-@section('title', 'Loto Mada - Loterie en ligne à Madagascar | Jouez et Gagnez en Sécurité')
+@section('title', 'Accueil — Loto Mada')
 
 @section('content')
+
 <style>
-/* ---------------- HERO SECTION ---------------- */
+/* ======================= */
+/* STYLE PREMIUM MADA GOLD */
+/* ======================= */
+
+/* IMPORTANT : garder la transparence */
+
+/* Hero amélioré */
 .hero {
-    position: relative;
-    background: url('https://plus.unsplash.com/premium_photo-1718191345799-30f50e04a57a?auto=format&fit=crop&q=80&w=1600') center/cover no-repeat;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    text-align: center;
-}
-
-.hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(2px);
-}
-
-.hero-content {
-    position: relative;
-    z-index: 2;
-    max-width: 800px;
-    padding: 0 1.5rem;
-    animation: fadeIn 1s ease-in-out;
-}
-
-.hero h1 {
-    font-size: clamp(2.5rem, 6vw, 4.2rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    color: #fff;
-    text-shadow: 0 4px 15px rgba(0,0,0,0.4);
-}
-
-.hero p {
-    margin-top: 1rem;
-    font-size: clamp(1rem, 1.5vw, 1.3rem);
-    color: #e5e5e5;
-    line-height: 1.8;
-}
-
-/* CTA Buttons */
-.cta-buttons {
-    margin-top: 2rem;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-}
-
-.btn-cta {
-    padding: 1rem 2.4rem;
-    border-radius: 50px;
-    font-weight: 600;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
-    font-size: 1rem;
-    letter-spacing: 0.5px;
-}
-
-.btn-green {
-    background-color: #00b57f;
-    color: white;
-    box-shadow: 0 8px 24px rgba(0,181,127,0.35);
-}
-
-.btn-green:hover {
-    background-color: #00936a;
-    transform: translateY(-4px);
-}
-
-.btn-white {
-    background-color: white;
-    color: #00b57f;
-    border: 1px solid #00b57f;
-}
-
-.btn-white:hover {
-    background-color: #00b57f;
-    color: white;
-    transform: translateY(-4px);
-}
-
-/* ---------------- FEATURES (Cards) ---------------- */
-.features {
-    background: #f7f9fa;
-    padding: 6rem 1.5rem;
-}
-
-.features h2 {
-    text-align: center;
-    font-size: 2.3rem;
-    font-weight: 800;
-    color: #036b52;
-    margin-bottom: 3rem;
-    letter-spacing: -0.01em;
-}
-
-.feature-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2.5rem;
-    max-width: 1100px;
-    margin: 0 auto;
-}
-
-/* Card Premium Style */
-.feature {
-    position: relative;
-    overflow: hidden;
-    border-radius: 1.2rem;
-    height: 340px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    transition: all 0.4s ease;
-}
-
-.feature img {
-    position: absolute;
-    inset: 0;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: brightness(70%);
-    transition: all 0.5s ease;
-}
-
-.feature:hover img {
-    transform: scale(1.08);
-    filter: brightness(60%);
-}
-
-.feature-content {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    padding: 1.5rem;
+    border-radius: 32px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 18px 60px rgba(0,0,0,0.40);
+    margin-bottom: 40px;
     text-align: center;
-    background: rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(2px);
+    animation: fadeIn 0.6s ease-out;
 }
 
-.feature i {
-    font-size: 2.5rem;
-    color: #00c896;
-    margin-bottom: 1rem;
-}
-
-.feature h3 {
-    font-size: 1.4rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    text-transform: uppercase;
-}
-
-.feature p {
-    font-size: 1rem;
-    max-width: 80%;
-    color: #e5e5e5;
-    line-height: 1.6;
-}
-
-/* ---------------- WHY SECTION ---------------- */
-.why-section {
-    padding: 6rem 1.5rem;
-    text-align: center;
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-.why-section h2 {
-    font-size: 2.2rem;
-    font-weight: 800;
-    color: #b71c1c;
-    margin-bottom: 1rem;
-}
-
-.why-section img {
-    width: 100%;
-    border-radius: 1.2rem;
-    margin: 2.5rem 0;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-}
-
-.why-section p {
-    color: #444;
-    font-size: 1.05rem;
-    line-height: 1.8;
-    margin-bottom: 1.5rem;
-}
-
-/* Animation */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
+  0% { opacity:0; transform: translateY(20px); }
+  100%{ opacity:1; transform:translateY(0); }
+}
+
+.hero-title {
+    font-size: 34px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: linear-gradient(120deg, #ffd166, #fff);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.jackpot-amount {
+    font-size: 58px;
+    font-weight: 900;
+    color: #ffcc55;
+    text-shadow: 0 0 25px rgba(255,200,0,0.45);
+    margin: 10px 0 0 0;
+}
+
+/* Countdown */
+.countdown {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 22px;
+}
+
+.count-box {
+    background: rgba(0,0,0,0.25);
+    padding: 12px 16px;
+    border-radius: 12px;
+    color: #ffd166;
+    font-size: 20px;
+    font-weight: 900;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+.count-box small {
+    display: block;
+    font-size: 11px;
+    opacity: .7;
+}
+
+/* =============================== */
+/* SECTION TICKET (compact & gold) */
+/* =============================== */
+.ticket-wrapper {
+    display: flex;
+    gap: 35px;
+    flex-wrap: wrap;
+}
+
+.left-panel {
+    flex: 1;
+    min-width: 360px;
+    padding: 20px;
+    border-radius: 22px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+
+.ticket-title {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 15px;
+    color: #fff3c6;
+}
+
+/* Number grid */
+.number-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px;
+}
+
+/* Number buttons premium */
+.number-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.10);
+    background: rgba(255,255,255,0.05);
+    font-weight: 700;
+    color: #ffd166;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.number-btn:hover {
+    background: rgba(255,255,255,0.14);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+}
+
+.number-btn.active {
+    background: linear-gradient(120deg, #ffd166, #ffe6a4);
+    color: #2b2a2a;
+    box-shadow: 0 0 18px rgba(255,209,102,0.6);
+}
+
+/* RIGHT PANEL */
+.right-panel {
+    width: 360px;
+    min-width: 300px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 22px;
+    padding: 22px;
+    border: 1px solid rgba(255,255,255,0.10);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.40);
+}
+
+.buy-box-title {
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.price-tag {
+    font-size: 32px;
+    font-weight: 900;
+    color: #ffd166;
+    text-shadow: 0 0 12px rgba(255,209,102,0.6);
+}
+
+/* Button */
+.buy-btn {
+    margin-top: 20px;
+    width: 100%;
+    padding: 14px;
+    border-radius: 16px;
+    background: linear-gradient(120deg, #ffd166, #ffe7a6);
+    color: #111;
+    font-size: 18px;
+    font-weight: 900;
+    border: none;
+    cursor: pointer;
+    transition: 0.15s;
+}
+.buy-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.12);
+}
+
+/* Ticker rules */
+.rules-ticker-wrapper {
+    margin-top: 25px;
+    overflow: hidden;
+    white-space: nowrap;
+    border-top:1px solid rgba(255,255,255,0.12);
+    border-bottom:1px solid rgba(255,255,255,0.12);
+    padding: 12px 0;
+}
+
+.rules-ticker {
+    display:inline-block;
+    font-size: 13px;
+    color: #ffd166;
+    animation: scroll 20s linear infinite;
+}
+
+/* Scroll animation */
+@keyframes scroll {
+    0% { transform: translateX(100%); }
+    100%{ transform: translateX(-180%); }
+}
+
+/* ====================== */
+/* CARDS PREMIUM (SEO)   */
+/* ====================== */
+.cards-section {
+    margin-top: 50px;
+}
+
+.cards-title {
+    font-size: 24px;
+    font-weight: 900;
+    margin-bottom: 20px;
+    color: #ffdd88;
+    text-transform: uppercase;
+}
+
+.cards {
+    display:flex;
+    gap:25px;
+    flex-wrap:wrap;
+}
+
+.card {
+    flex:1;
+    min-width:260px;
+    padding:20px;
+    border-radius:18px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+}
+
+.card h3 {
+    color:#ffd166;
+    font-size:18px;
+    margin-bottom:10px;
+    font-weight:900;
+}
+
+.card p {
+    color: #e6e6e6;
+    font-size:14px;
+    line-height:1.6;
+}
+
+/* ========================== */
+/* SEO TEXT BLOCK (big)      */
+/* ========================== */
+.seo-block {
+    margin-top:40px;
+    padding:25px;
+    border-radius:18px;
+    background: rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.08);
+    color:#ddd;
+    line-height:1.7;
+    font-size:15px;
+}
+
+/* ====================== */
+/* FAQ SECTION            */
+/* ====================== */
+.faq-section {
+    margin-top:40px;
+}
+
+.faq-title {
+    font-size:22px;
+    font-weight:900;
+    color:#ffd166;
+    margin-bottom:20px;
+}
+
+.faq-item {
+    background: rgba(255,255,255,0.03);
+    padding:14px;
+    border-radius:14px;
+    margin-bottom:10px;
+    border: 1px solid rgba(255,255,255,0.06);
+}
+
+.faq-item summary {
+    cursor:pointer;
+    font-weight:800;
+    color:#fff3c6;
+}
+
+.faq-item p {
+    margin-top:8px;
+    color:#e4e4e4;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+    .ticket-wrapper { flex-direction: column; }
+    .right-panel { width: 100%; }
 }
 </style>
 
-<!-- HERO -->
-<section class="hero">
-    <div class="hero-content">
-        <h1>Jouez et gagnez avec <span style="color:#00c896;">Loto Mada</span> 🎯</h1>
-        <p>Découvrez la première loterie en ligne de Madagascar. Une expérience 100% sécurisée, moderne et transparente, où chaque tirage compte.</p>
-        <div class="cta-buttons">
-            <a href="#" class="btn-cta btn-green"><i class="fa-solid fa-play mr-2"></i> Jouer maintenant</a>
-            <a href="#" class="btn-cta btn-white"><i class="fa-solid fa-user-plus mr-2"></i> Créer un compte</a>
+
+
+<!-- ================= -->
+<!--      HERO         -->
+<!-- ================= -->
+<div class="hero">
+    <div class="hero-title">Lucky Day — Tirage Officiel</div>
+
+    <p style="opacity:.8;">Prochain tirage : <strong>30/12/2027 — 22h30</strong></p>
+
+    <div class="countdown">
+        <div class="count-box">769 <small>JOURS</small></div>
+        <div class="count-box">07 <small>HEURES</small></div>
+        <div class="count-box">03 <small>MINUTES</small></div>
+        <div class="count-box">32 <small>SECONDES</small></div>
+    </div>
+
+    <div class="jackpot-amount">250 000 000 Ar</div>
+</div>
+
+
+
+<!-- =============================== -->
+<!--       NUMÉROS + PARTICIPATION   -->
+<!-- =============================== -->
+<div class="ticket-wrapper">
+
+    <!-- LEFT -->
+    <div class="left-panel">
+        <div class="ticket-title">Choisissez vos numéros</div>
+
+        <h4>Jours (choisissez 5 numéros)</h4>
+        <div class="number-grid" id="days-grid">
+            @for ($i = 1; $i <= 49; $i++)
+                <div class="number-btn day-btn">{{ sprintf("%02d", $i) }}</div>
+            @endfor
+        </div>
+
+        <h4 style="margin-top:20px;">Numéro Bonus (1 à 10)</h4>
+        <div class="number-grid" style="grid-template-columns: repeat(5,1fr);" id="month-grid">
+            @for ($i = 1; $i <= 10; $i++)
+                <div class="number-btn month-btn">{{ sprintf("%02d", $i) }}</div>
+            @endfor
         </div>
     </div>
-</section>
 
-<!-- FEATURES -->
-<section class="features" id="features">
-    <h2>Pourquoi choisir Loto Mada ?</h2>
+    <!-- RIGHT -->
+    <div class="right-panel">
 
-    <div class="feature-grid">
-        <div class="feature">
-            <img src="https://plus.unsplash.com/premium_vector-1721296175149-989d7fc11dd2?auto=format&fit=crop&q=80&w=880" alt="Sécurité en ligne Loto Mada">
-            <div class="feature-content">
-                <i class="fa-solid fa-shield-halved"></i>
-                <h3>Sécurité garantie</h3>
-                <p>Vos transactions sont cryptées avec les dernières technologies pour une protection totale de vos données.</p>
+        <div class="buy-box-title">Votre Participation</div>
+        <div class="price-tag">2000 Ar</div>
+
+        <button class="buy-btn">Valider mon Ticket</button>
+
+        <div class="rules-ticker-wrapper">
+            <div class="rules-ticker">
+                Catégorie 8 : 2 numéros (sans bonus) •
+                Catégorie 7 : 2 numéros + bonus •
+                Catégorie 6 : 3 numéros (sans bonus) •
+                Catégorie 5 : 3 numéros + bonus •
+                Catégorie 4 : 4 numéros (sans bonus) •
+                Catégorie 3 : 4 numéros + bonus •
+                Catégorie 2 : 5 numéros (sans bonus) •
+                Catégorie 1 : 5 numéros + bonus —
+                Sélectionner 5 numéros entre 1 et 49 + 1 bonus (1–10) — Jackpot : 250 000 000 Ar — Prix : 2000 Ar
             </div>
         </div>
 
-        <div class="feature">
-            <img src="https://images.unsplash.com/reserve/oGLumRxPRmemKujIVuEG_LongExposure_i84.jpeg?auto=format&fit=crop&q=80&w=1173" alt="Tirages rapides Madagascar">
-            <div class="feature-content">
-                <i class="fa-solid fa-bolt"></i>
-                <h3>Tirages en direct</h3>
-                <p>Assistez aux tirages en temps réel, vérifiés et transparents, pour une expérience immersive et fiable.</p>
-            </div>
+    </div>
+</div>
+
+
+
+<!-- ========================= -->
+<!--       CARDS PREMIUM       -->
+<!-- ========================= -->
+<div class="cards-section">
+    <div class="cards-title">Pourquoi jouer au Loto Madagascar ?</div>
+
+    <div class="cards">
+        <div class="card">
+            <h3>Tirage national sécurisé</h3>
+            <p>Nos tirages sont contrôlés, vérifiés et enregistrés afin de garantir une totale transparence.</p>
         </div>
 
-        <div class="feature">
-            <img src="https://plus.unsplash.com/premium_photo-1701121214648-245e9c86cc92?auto=format&fit=crop&q=80&w=880" alt="Gains instantanés Loto Mada">
-            <div class="feature-content">
-                <i class="fa-solid fa-hand-holding-dollar"></i>
-                <h3>Gains instantanés</h3>
-                <p>Encaissez vos gains en quelques clics, sans délais ni frais cachés. Gagnez et profitez en toute liberté.</p>
-            </div>
+        <div class="card">
+            <h3>Jackpots exceptionnels</h3>
+            <p>Un jackpot de 250 millions Ariary, accessible pour seulement 2000 Ar par ticket.</p>
+        </div>
+
+        <div class="card">
+            <h3>Expérience premium</h3>
+            <p>Design moderne, interface intuitive et achat de ticket ultra-simple.</p>
         </div>
     </div>
-</section>
+</div>
 
-<!-- WHY SECTION -->
-<section class="why-section">
-    <h2>Loto Mada : Le jeu responsable et gagnant à Madagascar 🎉</h2>
-    <img src="https://images.unsplash.com/photo-1758522487244-b0fd13f11937?auto=format&fit=crop&q=80&w=1332" alt="Joueur heureux Madagascar">
-    <p><strong>Loto Mada</strong> incarne une nouvelle génération de loterie en ligne, alliant sécurité, rapidité et responsabilité. Chaque joueur bénéficie d’un espace personnel clair et sécurisé pour suivre ses jeux et ses gains.</p>
-    <p>Rejoignez la communauté <strong>Loto Mada</strong> et vivez l’émotion du jeu en toute confiance. Ensemble, faisons du plaisir du jeu une expérience maîtrisée et enrichissante.</p>
-    <a href="#" class="btn-cta btn-green mt-6 inline-block"><i class="fa-solid fa-circle-info mr-2"></i> En savoir plus</a>
-</section>
+
+
+<!-- ========================= -->
+<!-- BLOCK SEO (long)         -->
+<!-- ========================= -->
+<div class="seo-block">
+    <h3 style="color:#ffd166; font-size:20px; font-weight:900;">Loto Mada — Jouez en toute confiance</h3>
+    <p>Le <strong>Loto Madagascar</strong> vous permet de participer chaque semaine à un tirage officiel avec des règles simples : choisissez cinq numéros entre 1 et 49, puis un numéro bonus entre 1 et 10. Le prix du ticket est de seulement 2000 Ariary, ce qui en fait l’une des loteries les plus accessibles du pays.</p>
+    <p>Notre plateforme met en avant un environnement sécurisé, des transactions vérifiées et une interface agréable inspirée des standards internationaux, tout en gardant une identité locale chaleureuse aux couleurs du Madagascar Gold.</p>
+    <p>Chaque ticket acheté contribue au développement du divertissement responsable dans tout le pays.</p>
+</div>
+
+
+
+<!-- ========================= -->
+<!--         FAQ              -->
+<!-- ========================= -->
+<div class="faq-section">
+    <div class="faq-title">Questions fréquentes</div>
+
+    <div class="faq-item">
+        <summary>Comment participer au tirage ?</summary>
+        <p>Choisissez vos numéros, ajoutez un bonus, et validez votre ticket pour 2000 Ar.</p>
+    </div>
+
+    <div class="faq-item">
+        <summary>Comment connaître les résultats ?</summary>
+        <p>Les résultats du tirage sont affichés sur le site après validation officielle.</p>
+    </div>
+
+    <div class="faq-item">
+        <summary>Peut-on jouer depuis un téléphone ?</summary>
+        <p>Oui, le site est 100% responsive et compatible mobile.</p>
+    </div>
+</div>
+
+
+
+<!-- ========================= -->
+<!-- JS INTERACTIF (inchangé) -->
+<!-- ========================= -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const maxDays = 5;
+    const dayButtons = document.querySelectorAll(".day-btn");
+
+    dayButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            if(btn.classList.contains("active")) {
+                btn.classList.remove("active");
+                return;
+            }
+
+            let selected = document.querySelectorAll(".day-btn.active").length;
+            if(selected >= maxDays) {
+                alert("Vous devez choisir exactement 5 numéros.");
+                return;
+            }
+
+            btn.classList.add("active");
+        });
+    });
+
+    const monthButtons = document.querySelectorAll(".month-btn");
+    monthButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            monthButtons.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+        });
+    });
+
+    document.querySelector(".buy-btn").addEventListener("click", () => {
+        const chosen = [...document.querySelectorAll(".day-btn.active")].map(x => x.textContent);
+        const bonus = document.querySelector(".month-btn.active")?.textContent;
+
+        if(chosen.length !== 5) {
+            alert("Veuillez choisir exactement 5 numéros.");
+            return;
+        }
+        if(!bonus) {
+            alert("Veuillez sélectionner votre numéro bonus.");
+            return;
+        }
+
+        alert("Ticket validé :\n\nNuméros : " + chosen.join(", ") + "\nBonus : " + bonus + "\nPrix : 2000 Ar");
+    });
+});
+</script>
+
 @endsection

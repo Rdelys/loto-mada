@@ -1,371 +1,310 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>@yield('title', 'Loto Mada')</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@yield('title', 'Loto Mada')</title>
 
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FONT AWESOME PREMIUM ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root{
+          --accent: #ffd166;
+          --glass: rgba(255,255,255,0.06);
+          --radius: 40px;
+          --nav-h: 70px;
+        }
 
-  <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      background: #fff;
-      margin: 0;
-      padding: 0;
-    }
+        /* BACKGROUND ANIMÉ */
+        body{
+          margin:0;
+          padding:40px;
+          font-family: Inter, system-ui, sans-serif;
+          background: linear-gradient(120deg,#0f172a,#081225,#041025);
+          background-size: 350% 350%;
+          animation: bg 14s ease-in-out infinite;
+          color:#e7eef9;
+        }
+        @keyframes bg{
+          0%{background-position:0% 50%;}
+          50%{background-position:100% 50%;}
+          100%{background-position:0% 50%;}
+        }
 
-    :root {
-      --green: #016b54;
-      --red: #c62828;
-      --dark: #111827;
-      --white: #ffffff;
-      --transition: all 0.3s ease;
-    }
+        /* NAVBAR TRANSPARENTE */
+        nav{
+          height:var(--nav-h);
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          padding:10px 22px;
+          border-radius:var(--radius);
+          backdrop-filter: blur(10px) saturate(140%);
+          -webkit-backdrop-filter: blur(10px) saturate(140%);
+          background: rgba(255,255,255,0.05);
+          border:1px solid rgba(255,255,255,0.08);
+          box-shadow:0 12px 30px rgba(0,0,0,0.35);
+          margin-bottom:40px;
+        }
 
-    /* === HEADER === */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 50;
-      backdrop-filter: blur(14px);
-      background: rgba(255, 255, 255, 0.05);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-      transition: all 0.35s ease-in-out;
-    }
+        /* LOGO */
+        .brand{
+          font-size:22px;
+          font-weight:800;
+          letter-spacing:1px;
+          text-transform:uppercase;
+          background:linear-gradient(120deg,var(--accent),#ffffff);
+          -webkit-background-clip:text;
+          color:transparent;
+        }
+        .brand-small{
+          font-size:16px;
+          letter-spacing:0.8px;
+          transform:translateY(1px);
+        }
 
-    header.scrolled {
-      background: rgba(255, 255, 255, 0.92);
-      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(20px);
-    }
+        /* MENU GAUCHE */
+        .menu{
+          display:flex;
+          gap:14px;
+        }
+        .menu a{
+          text-decoration:none;
+          font-weight:600;
+          font-size:14px;
+          padding:8px 12px;
+          border-radius:20px;
+          color:var(--accent);
+          background:rgba(255,255,255,0.03);
+          border:1px solid rgba(255,255,255,0.04);
+          transition:.2s;
+        }
+        .menu a:hover{
+          background:rgba(255,255,255,0.08);
+        }
 
-    /* === LOGO === */
-    .logo-badge {
-      background-color: var(--green);
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 1.4rem;
-      font-weight: bold;
-      box-shadow: 0 4px 12px rgba(0, 91, 65, 0.3);
-      transition: var(--transition);
-      transform-style: preserve-3d;
-    }
+        /* DROITE : CONNEXION / INSCRIPTION */
+        .auth{
+          display:flex;
+          gap:12px;
+        }
+        .auth a{
+          text-decoration:none;
+          padding:8px 14px;
+          border-radius:22px;
+          font-size:14px;
+          font-weight:600;
+          transition:.25s;
+        }
 
-    .logo-badge:hover {
-      transform: rotateY(15deg) rotateX(8deg) scale(1.08);
-      box-shadow: 0 8px 20px rgba(0, 91, 65, 0.4);
-    }
+        .login{
+          color:#fff;
+          background:rgba(255,255,255,0.06);
+          border:1px solid rgba(255,255,255,0.06);
+        }
+        .login:hover{
+          background:rgba(255,255,255,0.12);
+        }
 
-    /* === NAV LINKS === */
-    .nav-link {
-      position: relative;
-      font-weight: 600;
-      color: var(--dark);
-      transition: var(--transition);
-      padding-bottom: 4px;
-    }
+        .signup{
+          background:linear-gradient(120deg,#ffd166,#ffe9b0);
+          color:#000;
+          font-weight:700;
+          box-shadow:0 6px 16px rgba(255,209,102,0.45);
+        }
+        .signup:hover{
+          filter:brightness(1.1);
+        }
 
-    .nav-link::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      height: 2px;
-      width: 0%;
-      background-color: var(--green);
-      transition: width 0.3s ease-in-out;
-    }
+        /* MOBILE */
+        .hamburger{
+          display:none;
+          width:42px;height:42px;
+          align-items:center;justify-content:center;
+          border-radius:14px;
+          background:rgba(255,255,255,0.04);
+          border:1px solid rgba(255,255,255,0.08);
+          cursor:pointer;
+        }
+        .hamburger svg{
+          width:22px;height:22px;stroke:#ffd166;
+        }
 
-    .nav-link:hover {
-      color: var(--green);
-      transform: translateY(-2px);
-    }
+        @media(max-width:820px){
+          .menu,.auth{display:none;}
+          .hamburger{display:flex;}
+        }
 
-    .nav-link:hover::after {
-      width: 100%;
-    }
+        /* ========================= */
+        /* FOOTER PREMIUM GOLD STYLE */
+        /* ========================= */
 
-    /* === BUTTONS === */
-    .btn-3d {
-      position: relative;
-      border-radius: 9999px;
-      font-weight: 600;
-      transition: all 0.25s ease-in-out;
-      overflow: hidden;
-    }
+        .footer {
+            margin-top: 60px;
+            padding: 40px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 28px;
+            border: 1px solid rgba(255,255,255,0.07);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.45);
+            color: #e6e6e6;
+        }
 
-    .btn-connexion {
-      background-color: white;
-      color: var(--dark);
-      border: 1.5px solid #ddd;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    }
+        .footer-top {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 35px;
+        }
 
-    .btn-connexion:hover {
-      border-color: var(--green);
-      color: var(--green);
-      box-shadow: 0 8px 20px rgba(0, 91, 65, 0.25);
-      transform: translateY(-2px);
-    }
+        .footer-col {
+            flex: 1;
+            min-width: 230px;
+        }
 
-    .btn-inscription {
-      background-color: var(--green);
-      color: white;
-      box-shadow: 0 4px 15px rgba(0, 91, 65, 0.25);
-      position: relative;
-    }
+        .footer-col h3 {
+            font-size: 22px;
+            font-weight: 900;
+            color: #ffd166;
+            margin-bottom: 12px;
+        }
 
-    .btn-inscription::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -75%;
-      width: 50%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.2);
-      transform: skewX(-25deg);
-      animation: shine 3s infinite linear;
-    }
+        .footer-col h4 {
+            font-size: 18px;
+            font-weight: 800;
+            color: #ffe9b0;
+            margin-bottom: 10px;
+        }
 
-    .btn-inscription:hover {
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 10px 25px rgba(0, 91, 65, 0.3);
-      background-color: var(--red);
-    }
+        .footer-col a {
+            display:block;
+            text-decoration:none;
+            margin-bottom:7px;
+            color:#ffd166;
+            opacity:0.9;
+            transition:0.2s;
+        }
+        .footer-col a:hover {
+            opacity:1;
+            transform:translateX(4px);
+        }
 
-    @keyframes shine {
-      0% { left: -75%; }
-      50% { left: 125%; }
-      100% { left: 125%; }
-    }
+        /* Social Icons */
+        .footer-social {
+            display:flex;
+            gap:14px;
+            margin-top:12px;
+        }
 
-    /* === MENU MOBILE (nouveau) === */
-    #mobileMenu {
-      max-height: 0;
-      opacity: 0;
-      overflow: hidden;
-      transform: scaleY(0.9);
-      transform-origin: top;
-      transition: all 0.4s ease;
-    }
+        .footer-social i {
+            font-size:18px;
+            color:#ffd166;
+            opacity:0.85;
+            transition:0.25s;
+        }
 
-    #mobileMenu.active {
-      max-height: 500px;
-      opacity: 1;
-      transform: scaleY(1);
-    }
+        .footer-social i:hover {
+            opacity:1;
+            transform:scale(1.18);
+            color:#fff5c0;
+            text-shadow:0 0 6px rgba(255,209,102,0.7);
+        }
 
-    #menuToggle.active i {
-      transform: rotate(90deg);
-      color: var(--red);
-      transition: all 0.4s ease;
-    }
+        .footer-bottom {
+            margin-top: 30px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.12);
+            text-align:center;
+            font-size:14px;
+            opacity:0.75;
+        }
 
-    /* === FOOTER === */
-    footer {
-      background-color: var(--dark);
-      color: #e5e5e5;
-      padding: 4rem 1.5rem 2rem;
-      font-size: 0.95rem;
-    }
+        @media(max-width:780px){
+            .footer-top { flex-direction: column; }
+        }
 
-    .footer-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .footer-logo {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-
-    .footer-logo .logo-badge {
-      width: 40px;
-      height: 40px;
-      font-size: 1.2rem;
-    }
-
-    .footer-logo h3 {
-      font-weight: 700;
-      font-size: 1.4rem;
-    }
-
-    .footer-links a {
-      display: block;
-      color: #ccc;
-      margin-bottom: 0.6rem;
-      transition: color 0.3s;
-    }
-
-    .footer-links a:hover {
-      color: var(--green);
-    }
-
-    .social-icons a {
-      color: #ccc;
-      margin-right: 0.8rem;
-      font-size: 1.3rem;
-      transition: color 0.3s;
-    }
-
-    .social-icons a:hover {
-      color: var(--green);
-    }
-
-    .footer-bottom {
-      text-align: center;
-      font-size: 0.85rem;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      margin-top: 3rem;
-      padding-top: 1.2rem;
-      color: #aaa;
-    }
-
-    @media (max-width: 768px) {
-      .footer-grid { text-align: center; }
-      .footer-logo { justify-content: center; }
-      .social-icons { justify-content: center; }
-    }
-  </style>
+    </style>
 </head>
 
-<body class="text-gray-800">
+<body>
 
-  <!-- 🔹 NAVBAR -->
-  <header>
-    <nav class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
-      <!-- Logo -->
-      <a href="{{ url('/') }}" class="flex items-center gap-3">
-        <div class="logo-badge">🎱</div>
-        <h1 class="text-3xl font-extrabold tracking-tight text-[var(--dark)]">
-          <span class="text-[var(--red)]">Loto</span><span class="text-[var(--green)]"> Mada</span>
-        </h1>
-      </a>
+    {{-- NAVBAR --}}
+    <nav>
+        <div class="menu">
+            <a href="#">Accueil</a>
+            <a href="#">Jeux</a>
+            <a href="#">Résultats</a>
+        </div>
 
-      <!-- Menu principal -->
-      <div class="hidden lg:flex items-center gap-10 font-medium">
-        <a href="{{ url('/') }}" class="nav-link">Accueil</a>
-        <a href="#" class="nav-link">Jeux</a>
-        <a href="#" class="nav-link">Résultats</a>
-        <a href="#" class="nav-link">Tirages</a>
-        <a href="#" class="nav-link">Contact</a>
-      </div>
+        <div class="brand brand-small">Loto Mada</div>
 
-      <!-- Boutons -->
-      <div class="hidden lg:flex items-center gap-4">
-        <a href="#" class="btn-3d btn-connexion px-5 py-2">
-          <i class="fa-solid fa-user mr-1"></i> Connexion
-        </a>
-        <a href="#" class="btn-3d btn-inscription px-6 py-2">
-          <i class="fa-solid fa-user-plus mr-1"></i> Inscription
-        </a>
-      </div>
+        <div class="auth">
+            @guest
+                <a class="login" href="#">Connexion</a>
+                <a class="signup" href="#">Inscription</a>
+            @endguest
+        </div>
 
-      <!-- Bouton mobile -->
-      <button id="menuToggle" class="lg:hidden text-2xl text-[var(--green)] focus:outline-none transition-transform">
-        <i class="fas fa-bars"></i>
-      </button>
+        <div class="hamburger">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16"/>
+            </svg>
+        </div>
     </nav>
 
-    <!-- Menu mobile -->
-    <div id="mobileMenu" class="bg-white/95 backdrop-blur-md shadow-md border-t border-gray-200 flex flex-col items-center py-4 space-y-4 lg:hidden">
-      <a href="{{ url('/') }}" class="nav-link text-gray-700">Accueil</a>
-      <a href="#" class="nav-link text-gray-700">Jeux</a>
-      <a href="#" class="nav-link text-gray-700">Résultats</a>
-      <a href="#" class="nav-link text-gray-700">Tirages</a>
-      <a href="#" class="nav-link text-gray-700">Contact</a>
-      <div class="border-t border-gray-300 w-10/12"></div>
-      <a href="#" class="btn-3d btn-connexion px-5 py-2 w-10/12 text-center">Connexion</a>
-      <a href="#" class="btn-3d btn-inscription px-6 py-2 w-10/12 text-center">Inscription</a>
-    </div>
-  </header>
+    {{-- CONTENU DES PAGES --}}
+    <main>
+        @yield('content')
+    </main>
 
-  <!-- Spacer -->
-  <div class="h-24"></div>
+    {{-- FOOTER --}}
+    <footer class="footer">
 
-  <!-- Contenu -->
-  <main>
-    @yield('content')
-  </main>
+        <div class="footer-top">
 
-  <!-- 🔸 FOOTER -->
-  <footer>
-    <div class="footer-grid">
-      <div>
-        <div class="footer-logo">
-          <div class="logo-badge">🎱</div>
-          <h3>Loto <span class="text-green-400">Mada</span></h3>
+            <div class="footer-col">
+                <h3>Loto Mada</h3>
+                <p>
+                    Plateforme officielle de jeux de tirage à Madagascar.  
+                    Jouez en toute sécurité et tentez de gagner des jackpots exceptionnels.
+                </p>
+            </div>
+
+            <div class="footer-col">
+                <h4>Navigation</h4>
+                <a href="#">Accueil</a>
+                <a href="#">Jeux</a>
+                <a href="#">Résultats</a>
+                <a href="#">À propos</a>
+            </div>
+
+            <div class="footer-col">
+                <h4>Aide</h4>
+                <a href="#">FAQ</a>
+                <a href="#">Support</a>
+                <a href="#">Conditions d'utilisation</a>
+                <a href="#">Politique de confidentialité</a>
+            </div>
+
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <p>Email : support@lotomada.mg</p>
+                <p>Tél : +261 xx xx xxx xx</p>
+
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-x-twitter"></i></a>
+                </div>
+            </div>
+
         </div>
-        <p class="mt-3 text-gray-300">La plateforme n°1 de loterie et paris en ligne à Madagascar. Jouez, gagnez et vivez l’émotion du tirage en direct.</p>
-      </div>
 
-      <div class="footer-links">
-        <h4 class="font-semibold text-white mb-2">Navigation</h4>
-        <a href="#">Accueil</a>
-        <a href="#">Jeux</a>
-        <a href="#">Résultats</a>
-        <a href="#">Contact</a>
-      </div>
-
-      <div class="footer-links">
-        <h4 class="font-semibold text-white mb-2">Assistance</h4>
-        <a href="#">FAQ</a>
-        <a href="#">Conditions générales</a>
-        <a href="#">Politique de confidentialité</a>
-        <a href="#">Jeu responsable</a>
-      </div>
-
-      <div>
-        <h4 class="font-semibold text-white mb-2">Contact</h4>
-        <p><i class="fa-solid fa-envelope mr-2"></i> support@lotomada.mg</p>
-        <p><i class="fa-solid fa-phone mr-2"></i> +261 34 12 345 67</p>
-        <div class="social-icons mt-3 flex">
-          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-          <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-          <a href="#"><i class="fa-brands fa-instagram"></i></a>
-          <a href="#"><i class="fa-brands fa-youtube"></i></a>
+        <div class="footer-bottom">
+            © {{ date('Y') }} Loto Mada — Tous droits réservés.
         </div>
-      </div>
-    </div>
+    </footer>
 
-    <div class="footer-bottom">
-      &copy; {{ date('Y') }} Loto Mada — Tous droits réservés. | Développé avec ❤️ à Madagascar.
-    </div>
-  </footer>
-
-  <!-- Script -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const menuToggle = document.getElementById('menuToggle');
-      const mobileMenu = document.getElementById('mobileMenu');
-      const header = document.querySelector('header');
-
-      menuToggle.addEventListener('click', () => {
-        menuToggle.classList.toggle('active');
-        mobileMenu.classList.toggle('active');
-      });
-
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 20) header.classList.add('scrolled');
-        else header.classList.remove('scrolled');
-      });
-    });
-  </script>
 </body>
 </html>
