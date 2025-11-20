@@ -241,8 +241,8 @@
 
         <div class="auth">
             @guest
-                <a class="login" href="#">Connexion</a>
-                <a class="signup" href="#">Inscription</a>
+                <a class="login" href="{{ route('auth.page') }}?tab=login">Connexion</a>
+                <a class="signup" href="{{ route('auth.page') }}?tab=signup">Inscription</a>
             @endguest
         </div>
 
