@@ -23,6 +23,7 @@
     animation: fadeIn 0.6s ease-out;
 }
 
+/* Animation */
 @keyframes fadeIn {
   0% { opacity:0; transform: translateY(20px); }
   100%{ opacity:1; transform:translateY(0); }
@@ -43,7 +44,6 @@
     font-weight: 900;
     color: #ffcc55;
     text-shadow: 0 0 25px rgba(255,200,0,0.45);
-    margin: 10px 0 0 0;
 }
 
 /* Countdown */
@@ -56,16 +56,16 @@
 
 .count-box {
     background: rgba(0,0,0,0.25);
-    padding: 12px 16px;
+    padding: 10px 14px;
     border-radius: 12px;
     color: #ffd166;
-    font-size: 20px;
+    font-size: 17px;
     font-weight: 900;
     box-shadow: 0 8px 20px rgba(0,0,0,0.4);
 }
 .count-box small {
     display: block;
-    font-size: 11px;
+    font-size: 10px;
     opacity: .7;
 }
 
@@ -74,94 +74,97 @@
 /* =============================== */
 .ticket-wrapper {
     display: flex;
-    gap: 35px;
+    gap: 30px;
     flex-wrap: wrap;
 }
 
 .left-panel {
     flex: 1;
     min-width: 360px;
-    padding: 20px;
-    border-radius: 22px;
+    padding: 18px;
+    border-radius: 20px;
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.06);
     box-shadow: 0 10px 30px rgba(0,0,0,0.35);
 }
 
 .ticket-title {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 800;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     color: #fff3c6;
 }
 
-/* Number grid */
+/* GRID COMPACT */
 .number-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 12px;
+    gap: 6px !important;
+    margin-bottom: 10px;
 }
 
-/* Number buttons premium */
+/* NUMÉROS COMPACTS PREMIUM */
 .number-btn {
-    width: 48px;
-    height: 48px;
+    width: 38px !important;
+    height: 38px !important;
     border-radius: 50%;
     border: 1px solid rgba(255,255,255,0.10);
     background: rgba(255,255,255,0.05);
+    font-size: 14px !important;
     font-weight: 700;
     color: #ffd166;
     display:flex;
     justify-content:center;
     align-items:center;
     cursor: pointer;
-    transition: 0.2s;
-}
-.number-btn:hover {
-    background: rgba(255,255,255,0.14);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+    transition: 0.15s;
 }
 
+/* Hover discret */
+.number-btn:hover {
+    background: rgba(255,255,255,0.12);
+    transform: translateY(-2px);
+}
+
+/* Active */
 .number-btn.active {
     background: linear-gradient(120deg, #ffd166, #ffe6a4);
-    color: #2b2a2a;
-    box-shadow: 0 0 18px rgba(255,209,102,0.6);
+    color: #2b2a2a !important;
+    box-shadow: 0 0 10px rgba(255,209,102,0.5);
 }
 
 /* RIGHT PANEL */
 .right-panel {
-    width: 360px;
-    min-width: 300px;
+    width: 330px;
+    min-width: 280px;
     background: rgba(255,255,255,0.05);
-    border-radius: 22px;
-    padding: 22px;
+    border-radius: 20px;
+    padding: 20px;
     border: 1px solid rgba(255,255,255,0.10);
     box-shadow: 0 15px 40px rgba(0,0,0,0.40);
 }
 
 .buy-box-title {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 800;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .price-tag {
-    font-size: 32px;
+    font-size: 30px;
     font-weight: 900;
     color: #ffd166;
-    text-shadow: 0 0 12px rgba(255,209,102,0.6);
+    text-shadow: 0 0 10px rgba(255,209,102,0.6);
 }
 
-/* Button */
 .buy-btn {
     margin-top: 20px;
     width: 100%;
-    padding: 14px;
+    padding: 12px;
     border-radius: 16px;
     background: linear-gradient(120deg, #ffd166, #ffe7a6);
     color: #111;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 900;
     border: none;
     cursor: pointer;
@@ -169,30 +172,29 @@
 }
 .buy-btn:hover {
     transform: translateY(-2px);
-    filter: brightness(1.12);
+    filter: brightness(1.1);
 }
 
 /* Ticker rules */
 .rules-ticker-wrapper {
-    margin-top: 25px;
+    margin-top: 18px;
     overflow: hidden;
     white-space: nowrap;
     border-top:1px solid rgba(255,255,255,0.12);
     border-bottom:1px solid rgba(255,255,255,0.12);
-    padding: 12px 0;
+    padding: 10px 0;
 }
 
 .rules-ticker {
     display:inline-block;
-    font-size: 13px;
+    font-size: 12px;
     color: #ffd166;
-    animation: scroll 20s linear infinite;
+    animation: scroll 16s linear infinite;
 }
 
-/* Scroll animation */
 @keyframes scroll {
     0% { transform: translateX(100%); }
-    100%{ transform: translateX(-180%); }
+    100%{ transform: translateX(-200%); }
 }
 
 /* ====================== */
@@ -287,6 +289,7 @@
 }
 
 /* RESPONSIVE */
+/* RESPONSIVE */
 @media(max-width:900px){
     .ticket-wrapper { flex-direction: column; }
     .right-panel { width: 100%; }
@@ -314,32 +317,31 @@
 </div>
 
 
-
-<!-- =============================== -->
-<!--       NUMÉROS + PARTICIPATION   -->
-<!-- =============================== -->
+<!-- ======== NUMÉROS + PANEL ======== -->
 <div class="ticket-wrapper">
 
-    <!-- LEFT -->
     <div class="left-panel">
+
         <div class="ticket-title">Choisissez vos numéros</div>
 
-        <h4>Jours (choisissez 5 numéros)</h4>
+        <h4>Jours (5 numéros)</h4>
         <div class="number-grid" id="days-grid">
             @for ($i = 1; $i <= 49; $i++)
                 <div class="number-btn day-btn">{{ sprintf("%02d", $i) }}</div>
             @endfor
         </div>
 
-        <h4 style="margin-top:20px;">Numéro Bonus (1 à 10)</h4>
+        <h4 style="margin-top:12px;">Bonus (1 à 10)</h4>
         <div class="number-grid" style="grid-template-columns: repeat(5,1fr);" id="month-grid">
             @for ($i = 1; $i <= 10; $i++)
                 <div class="number-btn month-btn">{{ sprintf("%02d", $i) }}</div>
             @endfor
         </div>
+
     </div>
 
-    <!-- RIGHT -->
+
+    <!-- RIGHT PANEL -->
     <div class="right-panel">
 
         <div class="buy-box-title">Votre Participation</div>
@@ -349,21 +351,15 @@
 
         <div class="rules-ticker-wrapper">
             <div class="rules-ticker">
-                Catégorie 8 : 2 numéros (sans bonus) •
-                Catégorie 7 : 2 numéros + bonus •
-                Catégorie 6 : 3 numéros (sans bonus) •
-                Catégorie 5 : 3 numéros + bonus •
-                Catégorie 4 : 4 numéros (sans bonus) •
-                Catégorie 3 : 4 numéros + bonus •
-                Catégorie 2 : 5 numéros (sans bonus) •
-                Catégorie 1 : 5 numéros + bonus —
-                Sélectionner 5 numéros entre 1 et 49 + 1 bonus (1–10) — Jackpot : 250 000 000 Ar — Prix : 2000 Ar
+                Cat.8 : 2 numéros • Cat.7 : 2+bonus • Cat.6 : 3 nums • Cat.5 : 3+bonus •
+                Cat.4 : 4 nums • Cat.3 : 4+bonus • Cat.2 : 5 nums • Cat.1 : 5+bonus —
+                Ticket : 2000 Ar — Jackpot : 250 000 000 Ar
             </div>
         </div>
 
     </div>
-</div>
 
+</div>
 
 
 <!-- ========================= -->
