@@ -203,59 +203,65 @@
         </div>
 
         <!-- LOGIN FORM -->
-        <form class="form active" id="login-form">
+       <form class="form active" id="login-form" method="POST" action="{{ route('user.login') }}">
+            @csrf
             <div class="form-group">
                 <label>Pseudo ou Email</label>
-                <input type="text" placeholder="Entrez votre identifiant">
+                <input type="text" name="login" required placeholder="Entrez votre identifiant">
+                @error('login') <small style="color:#ff8a8a">{{ $message }}</small> @enderror
             </div>
 
             <div class="form-group">
                 <label>Mot de passe</label>
-                <input type="password" placeholder="Votre mot de passe">
+                <input type="password" name="password" required placeholder="Votre mot de passe">
             </div>
 
             <button class="submit-btn">Se connecter</button>
         </form>
 
+
         <!-- SIGNUP FORM -->
-        <form class="form" id="signup-form">
+        <form class="form" id="signup-form" method="POST" action="{{ route('user.register') }}">
+            @csrf
+
             <div class="form-group">
                 <label>Pseudo</label>
-                <input type="text" placeholder="Pseudo">
+                <input type="text" name="pseudo" required>
             </div>
 
             <div class="form-group">
                 <label>Nom</label>
-                <input type="text" placeholder="Votre nom">
+                <input type="text" name="nom" required>
             </div>
 
             <div class="form-group">
                 <label>Prénoms</label>
-                <input type="text" placeholder="Vos prénoms">
+                <input type="text" name="prenom" required>
             </div>
 
             <div class="form-group">
                 <label>Email</label>
-                <input type="email" placeholder="Adresse email">
+                <input type="email" name="email" required>
             </div>
 
             <div class="form-group">
                 <label>Numéro de téléphone</label>
-                <input type="text" placeholder="+261 ...">
+                <input type="text" name="telephone" required>
             </div>
 
             <div class="form-group">
                 <label>Mot de passe</label>
-                <input type="password" placeholder="Créer un mot de passe">
+                <input type="password" name="password" required>
             </div>
 
             <div class="form-group">
                 <label>Confirmer le mot de passe</label>
-                <input type="password" placeholder="Confirmer le mot de passe">
+                <input type="password" name="password_confirmation" required>
             </div>
 
             <button class="submit-btn">Créer un compte</button>
         </form>
+
 
     </div>
 

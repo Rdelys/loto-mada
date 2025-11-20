@@ -243,8 +243,32 @@
             @guest
                 <a class="login" href="{{ route('auth.page') }}?tab=login">Connexion</a>
                 <a class="signup" href="{{ route('auth.page') }}?tab=signup">Inscription</a>
+            @else
+                <a class="login" href="#">Mon compte ({{ Auth::user()->pseudo }})</a>
+                <a class="signup" href="#">Solde : {{ Auth::user()->solde ?? 0 }} Ariary</a>
+
+                <form action="{{ route('logout') }}" method="POST" style="margin:0; padding:0;">
+                    @csrf
+                    <button type="submit" 
+                        style="
+                            width:42px;
+                            height:42px;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            border-radius:14px;
+                            background:rgba(255,255,255,0.06);
+                            border:1px solid rgba(255,255,255,0.08);
+                            cursor:pointer;
+                            transition:0.25s;
+                        ">
+                        <i class="fas fa-right-from-bracket" style="color:#ffd166; font-size:18px;"></i>
+                    </button>
+                </form>
             @endguest
         </div>
+
+
 
         <div class="hamburger">
             <svg fill="none" viewBox="0 0 24 24" stroke-width="1.6">
