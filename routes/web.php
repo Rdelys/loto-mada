@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminAuthController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,3 +29,16 @@ Route::post('/login', [AuthController::class, 'login'])->name('user.login');
 
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
+// Page login admin
+Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
+Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.action');
+
+// Dashboard admin (protégé)
+Route::get('/admin/dashboard', function () {
+    return view('admin.dashboard');
+})->middleware('admin.auth')->name('admin.dashboard');
+
+// Déconnexion admin
+Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
