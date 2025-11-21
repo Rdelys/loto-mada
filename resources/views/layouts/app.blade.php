@@ -232,8 +232,8 @@
     {{-- NAVBAR --}}
     <nav>
         <div class="menu">
-            <a href="#">Accueil</a>
-            <a href="#">Jeux</a>
+            <a href="/">Accueil</a>
+            <!-- <a href="#">Jeux</a> -->
             <a href="#">Résultats</a>
         </div>
 

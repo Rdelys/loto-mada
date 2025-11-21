@@ -371,15 +371,17 @@
         <div class="price-tag">2000 Ar</div>
 
         <button class="buy-btn">Valider mon Ticket</button>
-
+        @if(isset($jackpot_actif))
         <div class="rules-ticker-wrapper">
             <div class="rules-ticker">
                 Cat.8 : 2 numéros • Cat.7 : 2+bonus • Cat.6 : 3 nums • Cat.5 : 3+bonus •
                 Cat.4 : 4 nums • Cat.3 : 4+bonus • Cat.2 : 5 nums • Cat.1 : 5+bonus —
-                Ticket : 2000 Ar — Jackpot : 250 000 000 Ar
+                Ticket : 2000 Ar — Jackpot : {{ number_format($jackpot_actif->somme, 0, ',', ' ') }} Ar
             </div>
         </div>
-
+        @else
+        <div class="rules-ticker-wrapper">-----</div>
+        @endif
     </div>
 
 </div>
