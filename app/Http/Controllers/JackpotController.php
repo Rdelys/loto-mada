@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Jackpot;
+use App\Models\Tirage;
 use Illuminate\Http\Request;
 use App\Models\UserTicket;
 
@@ -15,13 +16,16 @@ class JackpotController extends Controller
         $jackpots_termine = Jackpot::where('status', 'Terminer')->count();
         $jackpots_planifier = Jackpot::where('status', 'A planifier')->count();
         $user_tickets = UserTicket::with('user')->orderBy('created_at','desc')->get();
+        $tirages = Tirage::orderBy('id', 'desc')->get();
 
         return view('admin.dashboard', compact(
             'jackpots',
             'jackpot_actif',
             'jackpots_termine',
             'jackpots_planifier',
-            'user_tickets'
+            'user_tickets',
+                    'tirages'
+
         ));
     }
 

@@ -430,11 +430,59 @@
     <!-- TIRAGE -->
     <div class="section" id="tirage">
         <div class="card">
-            <div class="title">Gestion des Tirages</div>
+            <div class="card">
+                <div class="title">Gestion des Tirages</div>
 
-            <button class="btn-gold" onclick="genererTirage()">🎯 Lancer un tirage</button>
+                <button class="btn-gold" onclick="genererTirage()">🎯 Lancer un tirage</button>
 
-            <p id="resultat-tirage" style="margin-top:20px;"></p>
+                <p id="resultat-tirage" style="margin-top:20px;"></p>
+
+                <!-- 🟡 Tableau des tirages -->
+                <h3 style="margin-top:25px;color:#ffd166;">Historique des Tirages</h3>
+
+                <table class="jackpot-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Numéros</th>
+                            <th>Bonus</th>
+                            <th>Gagnant ?</th>
+                            <th>Utilisateur</th>
+                            <th>Somme jackpot</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    @foreach($tirages as $t)
+                        <tr>
+                            <td>{{ $t->created_at->format('d/m/Y H:i') }}</td>
+
+                            <td>{{ implode(', ', $t->numbers) }}</td>
+
+                            <td>{{ $t->bonus }}</td>
+
+                            <td>
+                                @if($t->winner_id)
+                                    <span class="status-tag status-gagne">Gagné</span>
+                                @else
+                                    <span class="status-tag status-perdu">Aucun gagnant</span>
+                                @endif
+                            </td>
+
+                            <td>
+                                @if($t->winner_id)
+                                    {{ $t->winner->pseudo ?? 'N/A' }}
+                                @else
+                                    -
+                                @endif
+                            </td>
+
+                            <td>{{ number_format($t->jackpot_somme, 0, ',', ' ') }} Ar</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
