@@ -87,12 +87,18 @@ class TirageController extends Controller
 
             // 6️⃣ Donner gains si gagnant
             if ($winner) {
-                $user = $tirage->winner; // doit exister dans modèle Tirage
+                $user = $tirage->winner; // relation winner doit exister sur Tirage -> belongsTo(User::class, 'winner_id')
                 if ($user) {
+                    // incrementer le solde
                     $user->solde += $jackpot->somme;
+
+                    // incrementer la colonne argent_gagnee
+                    $user->argent_gagnee += $jackpot->somme;
+
                     $user->save();
                 }
             }
+
 
             // 7️⃣ Jackpot terminé
             $jackpot->status = "Terminer";

@@ -17,6 +17,7 @@ class User extends Authenticatable
         'telephone',
         'password',
         'solde',
+        'argent_gagnee', // <- ajouté
     ];
 
     protected $hidden = [
@@ -24,9 +25,13 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    // 🔥 Relation à ajouter
     public function tickets()
     {
         return $this->hasMany(\App\Models\UserTicket::class);
+    }
+
+    public function withdrawals()
+    {
+        return $this->hasMany(\App\Models\Withdrawal::class);
     }
 }

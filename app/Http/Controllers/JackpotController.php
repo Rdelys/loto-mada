@@ -7,6 +7,8 @@ use App\Models\Tirage;
 use Illuminate\Http\Request;
 use App\Models\UserTicket;
 use App\Models\User;
+use App\Models\Withdrawal;
+
 
 class JackpotController extends Controller
 {
@@ -19,7 +21,9 @@ class JackpotController extends Controller
     $user_tickets = UserTicket::with('user')->orderBy('created_at','desc')->get();
     $tirages = Tirage::with('winner')->orderBy('id', 'desc')->get();
     $users = User::all();  // 👈 AJOUT CORRECT
-
+  // 🔥 RETRAITS
+    $withdrawals_pending = Withdrawal::where('status', 'pending')->count();
+    $withdrawals = Withdrawal::orderBy('created_at','desc')->get();
     return view('admin.dashboard', compact(
         'jackpots',
         'jackpot_actif',
@@ -27,7 +31,9 @@ class JackpotController extends Controller
         'jackpots_planifier',
         'user_tickets',
         'tirages',
-        'users' // 👈 DOIT ÊTRE ICI (juste le nom)
+        'users',
+                'withdrawals_pending',
+        'withdrawals'// 👈 DOIT ÊTRE ICI (juste le nom)
     ));
 }
 

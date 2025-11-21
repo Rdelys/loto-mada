@@ -375,6 +375,26 @@
             <i class="fa-solid fa-users"></i> Utilisateurs
         </a>
 
+        <a data-section="retraits" style="position:relative;">
+            <i class="fa-solid fa-money-bill-transfer"></i> Retraits
+            @if($withdrawals_pending > 0)
+                <span style="
+                    position:absolute;
+                    top:0;
+                    right:-10px;
+                    background:#ff4747;
+                    color:white;
+                    font-size:12px;
+                    padding:3px 7px;
+                    border-radius:50%;
+                    font-weight:900;
+                ">
+                    {{ $withdrawals_pending }}
+                </span>
+            @endif
+        </a>
+
+
         <form action="{{ route('admin.logout') }}" method="POST">
             @csrf
             <button class="nav-links a" style="background:rgba(255,255,255,0.12);border:none;padding:10px 16px;border-radius:var(--radius);color:white;cursor:pointer;">
@@ -773,6 +793,68 @@
         </div>
     </div>
 
+    <div class="section" id="retraits">
+        <div class="card">
+            <div class="title">Demandes de Retrait</div>
+
+            <table class="jackpot-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Utilisateur</th>
+                        <th>Montant</th>
+                        <th>Méthode</th>
+                        <th>Détails</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach($withdrawals as $w)
+                    <tr>
+                        <td>{{ $w->created_at->format('d/m/Y H:i') }}</td>
+                        <td>{{ $w->user->pseudo }}</td>
+                        <td>{{ number_format($w->amount,0,',',' ') }} Ar</td>
+                        <td>{{ $w->method ?? '-' }}</td>
+                        <td>{{ $w->method_details ?? '-' }}</td>
+                        <td style="text-transform:capitalize;">{{ $w->status }}</td>
+
+                        <td>
+                            @if($w->status === 'pending')
+                            <button class="table-btn edit"
+                                onclick="openValidateWithdrawal({{ $w->id }}, {{ $w->user_id }}, {{ $w->amount }})">
+                                Valider
+                            </button>
+                            @else
+                            ✔ Terminé
+                            @endif
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal retrait -->
+<div id="withdrawalModal" class="modal-overlay">
+    <div class="modal-box">
+        <h3>Valider le retrait ?</h3>
+
+        <p>Confirmer que l'utilisateur a bien reçu l'argent.</p>
+
+        <form method="POST" id="withdrawalForm">
+            @csrf
+
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" onclick="closeWithdrawalModal()">Non</button>
+                <button type="submit" class="btn-save">Oui, Terminer</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 </div>
 
@@ -934,6 +1016,16 @@ function genererTirage() {
              <br><b>Bonus :</b> ${data.bonus}
              <br><b>Gagnant :</b> ${data.winner_id ? 'Utilisateur #' + data.winner_id : 'Aucun'}`;
     });
+}
+
+function openValidateWithdrawal(id, user_id, amount) {
+    document.getElementById("withdrawalModal").style.display = "flex";
+    document.getElementById("withdrawalForm").action =
+        "/admin/withdrawals/validate/" + id;
+}
+
+function closeWithdrawalModal(){
+    document.getElementById("withdrawalModal").style.display = "none";
 }
 </script>
 </body>

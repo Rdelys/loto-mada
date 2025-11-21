@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\TirageController;
 use App\Models\Tirage;
+use App\Http\Controllers\WithdrawalController;
 
 
 
@@ -70,7 +71,18 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/profile/update', [ProfileController::class, 'updateProfile'])->name('profile.update');
 
+  // Ajouter du solde
     Route::post('/profile/add-funds', [ProfileController::class, 'addFunds'])->name('profile.addFunds');
+
+    // Demande de retrait
+    Route::post('/profile/withdraw/request', [WithdrawalController::class, 'requestWithdrawal'])
+        ->name('profile.withdraw.request');
+
+    // Annuler retrait
+    Route::post('/profile/withdraw/{withdrawal}/cancel', [WithdrawalController::class, 'cancel'])
+        ->name('profile.withdraw.cancel');
+
+
 });
 
 //tickets
@@ -87,3 +99,7 @@ Route::get('/resultats', function () {
     $tirages = Tirage::orderBy('id', 'desc')->get();
     return view('resultats', compact('tirages'));
 })->name('resultats');
+
+//Retrait
+Route::post('/admin/withdrawals/validate/{withdrawal}', 
+    [WithdrawalController::class, 'adminValidate'])->name('admin.withdraw.validate');

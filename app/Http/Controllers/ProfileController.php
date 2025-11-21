@@ -10,13 +10,32 @@ use App\Models\UserTicket;
 class ProfileController extends Controller
 {
 
-    public function index()
-    {
-        $user = Auth::user();
-        $tickets = $user->tickets()->orderBy('created_at','desc')->get();
+   public function index()
+{
+    $user = auth()->user();
 
-        return view('profile', compact('user','tickets'));
+    $tickets = $user->tickets()->orderBy('created_at', 'desc')->get();
+    $withdrawals = $user->withdrawals()->orderBy('created_at', 'desc')->get();
+
+    // 🔥 Nouveau : solde réellement disponible après retraits en attente
+    $pending = $user->withdrawals()
+                    ->where('status', 'pending')
+                    ->sum('amount');
+
+    $solde_retrait_disponible = $user->solde - $pending;
+    if ($solde_retrait_disponible < 0) {
+        $solde_retrait_disponible = 0;
     }
+
+    return view('profile', compact(
+        'user',
+        'tickets',
+        'withdrawals',
+        'solde_retrait_disponible'
+    ));
+}
+
+
 
     public function updateProfile(Request $request)
     {

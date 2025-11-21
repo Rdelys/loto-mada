@@ -159,6 +159,13 @@ a {
         <div class="meta">Email : <span id="displayEmail">{{ $user->email }}</span></div>
         <div class="meta">Téléphone : <span id="displayTelephone">{{ $user->telephone }}</span></div>
         <div class="balance" id="displaySolde">{{ number_format($user->solde ?? 0, 0, ',', ' ') }} Ar</div>
+        <div style="background:rgba(76,255,140,0.10);padding:12px;border-radius:12px;margin:10px 0;">
+    <p style="margin:0;font-size:14px;opacity:0.8;">Argent gagnée :</p>
+    <p style="margin:3px 0 0 0;font-size:22px;font-weight:900;color:#4cff8c;">
+        {{ number_format($user->argent_gagnee ?? 0, 0, ',', ' ') }} Ar
+    </p>
+</div>
+
       </div>
     </div>
 
@@ -192,18 +199,17 @@ a {
   </div>
 
   <!-- Side column : achat solde -->
-  <div class="profile-card side-card">
+  <!-- Side column : achat solde + retrait -->
+<div class="profile-card side-card">
     <h3 style="color:#ffd166;margin-top:0;">Achat solde</h3>
 
-    <p style="opacity:0.9;margin-bottom:12px;">Saisis le montant que tu veux ajouter. (Simulation statique — tu brancheras le paiement plus tard.)</p>
+    <p style="opacity:0.9;margin-bottom:12px;">Saisis le montant que tu veux ajouter. (Simulation statique — paiement à brancher plus tard.)</p>
 
     <form id="addFundsForm" method="POST" action="{{ route('profile.addFunds') }}">
         @csrf
-
         <div class="form-row">
             <input type="number" name="amount" min="100" placeholder="Montant en Ariary" required>
         </div>
-
         <div style="display:flex;gap:10px;margin-top:10px;">
             <button class="btn btn-primary" type="submit">Ajouter</button>
             <a class="btn btn-ghost" href="{{ route('profile') }}">Effacer</a>
@@ -212,10 +218,69 @@ a {
 
     <hr style="border:none;border-top:1px solid rgba(255,255,255,0.04);margin:18px 0;">
 
+    <h4 style="margin-bottom:8px;color:#fff3c6;">Retrait d'argent</h4>
+    <p style="opacity:0.85;margin-bottom:8px;">Demande de retrait — le montant sera réservé à l'envoi de la demande.</p>
+
+    <form method="POST" action="{{ route('profile.withdraw.request') }}">
+        @csrf
+
+        <div class="form-row">
+            <input type="number" name="amount" min="100" placeholder="Montant en Ariary" required>
+        </div>
+
+        <div class="form-row">
+            <input type="text" name="method" placeholder="Méthode (ex: Mobile Money)">
+        </div>
+
+        <div class="form-row">
+            <input type="text" name="method_details" placeholder="Détails (numéro mobile / compte)">
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:10px;">
+            <button class="btn btn-primary" type="submit">Demander retrait</button>
+        </div>
+    </form>
+
+    <hr style="border:none;border-top:1px solid rgba(255,255,255,0.04);margin:18px 0;">
+
     <h4 style="margin-bottom:8px;color:#fff3c6;">Récapitulatif</h4>
     <p style="margin:0 0 8px 0;">Pseudo: <strong id="sidePseudo">{{ $user->pseudo }}</strong></p>
     <p style="margin:0 0 8px 0;">Solde: <strong id="sideSolde">{{ number_format($user->solde ?? 0, 0, ',', ' ') }} Ar</strong></p>
-  </div>
+
+    <p style="margin:10px 0 6px 0;font-weight:700;color:#ffd166;">Historique retraits</p>
+    @if($user->withdrawals->isEmpty())
+        <p style="opacity:0.75;">Aucune demande de retrait.</p>
+    @else
+        <table class="ticket-table" style="margin-top:8px;">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Montant</th>
+                    <th>Statut</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($user->withdrawals()->orderBy('created_at','desc')->get() as $w)
+                <tr>
+                    <td>{{ $w->created_at->format('d/m/Y') }}</td>
+                    <td>{{ number_format($w->amount,0,',',' ') }} Ar</td>
+                    <td style="text-transform:capitalize;">{{ $w->status }}</td>
+                    <td>
+                        @if($w->status === 'pending')
+                        <form method="POST" action="{{ route('profile.withdraw.cancel', $w) }}" style="display:inline;">
+                            @csrf
+                            <button class="btn btn-ghost" type="submit" style="padding:6px 10px;">Annuler</button>
+                        </form>
+                        @endif
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @endif
+</div>
+
 </div>
 <div class="profile-card" style="margin-top:25px;">
     <h3 style="color:#ffd166;">Historique des Tickets</h3>
