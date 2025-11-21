@@ -6,189 +6,222 @@
 
 <style>
 /* ======================= */
-/* STYLE PREMIUM MADA GOLD */
+/*      LOTO MADA GOLD     */
+/*     STYLE PREMIUM UI    */
 /* ======================= */
 
-/* IMPORTANT : garder la transparence */
-
-/* Hero amélioré */
-.hero {
-    width: 100%;
-    border-radius: 32px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    box-shadow: 0 18px 60px rgba(0,0,0,0.40);
-    margin-bottom: 40px;
-    text-align: center;
-    animation: fadeIn 0.6s ease-out;
+:root{
+    --gold:#ffd166;
+    --gold-light:#ffe7a6;
+    --dark:#0a0f1c;
+    --glass1:rgba(255,255,255,0.03);
+    --glass2:rgba(255,255,255,0.05);
+    --glass3:rgba(255,255,255,0.10);
+    --border1:rgba(255,255,255,0.08);
+    --border2:rgba(255,255,255,0.12);
+    --shadow1:0 18px 60px rgba(0,0,0,0.45);
+    --shadow2:0 10px 30px rgba(0,0,0,0.30);
+    --radius-big:30px;
+    --radius:18px;
 }
 
-/* Animation */
+/* ANIMATION */
 @keyframes fadeIn {
   0% { opacity:0; transform: translateY(20px); }
   100%{ opacity:1; transform:translateY(0); }
 }
 
+/* ======================= */
+/*      HERO  SECTION      */
+/* ======================= */
+
+.hero {
+    width: 95%;
+    border-radius: var(--radius-big);
+    background: var(--glass2);
+    border: 1px solid var(--border1);
+    box-shadow: var(--shadow1);
+    margin-bottom: 40px;
+    text-align: center;
+    padding: 35px 25px;
+    animation: fadeIn .6s ease-out;
+}
+
 .hero-title {
-    font-size: 34px;
+    font-size: 36px;
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    background: linear-gradient(120deg, #ffd166, #fff);
+    background: linear-gradient(120deg, var(--gold), #fff);
     -webkit-background-clip: text;
     color: transparent;
+    margin-bottom: 8px;
 }
 
 .jackpot-amount {
     font-size: 58px;
     font-weight: 900;
-    color: #ffcc55;
-    text-shadow: 0 0 25px rgba(255,200,0,0.45);
+    margin-top: 20px;
+    color: var(--gold);
+    text-shadow: 0 0 25px rgba(255,200,0,0.4);
 }
 
-/* Countdown */
+/* COUNTDOWN */
 .countdown {
     display: flex;
     justify-content: center;
     gap: 18px;
     margin-top: 22px;
+    flex-wrap: wrap;
 }
 
 .count-box {
     background: rgba(0,0,0,0.25);
     padding: 10px 14px;
     border-radius: 12px;
-    color: #ffd166;
-    font-size: 17px;
+    color: var(--gold);
+    font-size: 18px;
     font-weight: 900;
     box-shadow: 0 8px 20px rgba(0,0,0,0.4);
 }
+
 .count-box small {
     display: block;
     font-size: 10px;
-    opacity: .7;
+    opacity:.7;
 }
 
 /* =============================== */
-/* SECTION TICKET (compact & gold) */
+/*     SECTION DES NUMÉROS        */
 /* =============================== */
+
 .ticket-wrapper {
     display: flex;
     gap: 30px;
     flex-wrap: wrap;
+    margin-top: 20px;
 }
 
 .left-panel {
     flex: 1;
     min-width: 360px;
-    padding: 18px;
-    border-radius: 20px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.06);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    padding: 22px;
+    border-radius: var(--radius);
+    background: var(--glass1);
+    border: 1px solid var(--border1);
+    box-shadow: var(--shadow2);
 }
 
 .ticket-title {
     font-size: 20px;
+    font-weight: 900;
+    margin-bottom: 14px;
+    color: #fff;
+}
+
+h4 {
+    margin: 12px 0 8px;
+    color: var(--gold);
     font-weight: 800;
-    margin-bottom: 10px;
-    color: #fff3c6;
 }
 
 /* GRID COMPACT */
 .number-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 6px !important;
-    margin-bottom: 10px;
+    gap: 8px;
+    margin-bottom: 12px;
 }
 
-/* NUMÉROS COMPACTS PREMIUM */
+/* NUMÉROS PREMIUM */
 .number-btn {
-    width: 38px !important;
-    height: 38px !important;
+    width: 42px !important;
+    height: 42px !important;
     border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.10);
-    background: rgba(255,255,255,0.05);
-    font-size: 14px !important;
+    border: 1px solid var(--border1);
+    background: var(--glass2);
+    font-size: 15px;
     font-weight: 700;
-    color: #ffd166;
+    color: var(--gold);
     display:flex;
     justify-content:center;
     align-items:center;
     cursor: pointer;
-    transition: 0.15s;
+    transition: 0.15s ease;
 }
 
-/* Hover discret */
 .number-btn:hover {
-    background: rgba(255,255,255,0.12);
+    background: var(--glass3);
     transform: translateY(-2px);
 }
 
-/* Active */
 .number-btn.active {
-    background: linear-gradient(120deg, #ffd166, #ffe6a4);
-    color: #2b2a2a !important;
-    box-shadow: 0 0 10px rgba(255,209,102,0.5);
+    background: linear-gradient(120deg, var(--gold), var(--gold-light));
+    color:#222;
+    box-shadow: 0 0 12px rgba(255,209,102,0.55);
 }
 
-/* RIGHT PANEL */
+/* ======================== */
+/*  RIGHT PANEL (BUY BOX)  */
+/* ======================== */
+
 .right-panel {
     width: 330px;
     min-width: 280px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 20px;
-    padding: 20px;
-    border: 1px solid rgba(255,255,255,0.10);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.40);
+    background: var(--glass2);
+    border-radius: var(--radius);
+    padding: 22px;
+    border: 1px solid var(--border1);
+    box-shadow: var(--shadow1);
 }
 
 .buy-box-title {
     font-size: 18px;
-    font-weight: 800;
-    margin-bottom: 8px;
+    font-weight: 900;
+    margin-bottom: 5px;
+    color:#fff;
 }
 
 .price-tag {
-    font-size: 30px;
+    font-size: 32px;
     font-weight: 900;
-    color: #ffd166;
+    color: var(--gold);
     text-shadow: 0 0 10px rgba(255,209,102,0.6);
 }
 
+/* BUTTON */
 .buy-btn {
     margin-top: 20px;
     width: 100%;
     padding: 12px;
-    border-radius: 16px;
-    background: linear-gradient(120deg, #ffd166, #ffe7a6);
+    border-radius: var(--radius);
+    background: linear-gradient(120deg, var(--gold), var(--gold-light));
     color: #111;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 900;
     border: none;
     cursor: pointer;
     transition: 0.15s;
 }
+
 .buy-btn:hover {
     transform: translateY(-2px);
     filter: brightness(1.1);
 }
 
-/* Ticker rules */
+/* RULES TICKER */
 .rules-ticker-wrapper {
-    margin-top: 18px;
+    margin-top: 20px;
     overflow: hidden;
     white-space: nowrap;
-    border-top:1px solid rgba(255,255,255,0.12);
-    border-bottom:1px solid rgba(255,255,255,0.12);
+    border-top:1px solid var(--border2);
+    border-bottom:1px solid var(--border2);
     padding: 10px 0;
 }
 
 .rules-ticker {
     display:inline-block;
     font-size: 12px;
-    color: #ffd166;
+    color: var(--gold);
     animation: scroll 16s linear infinite;
 }
 
@@ -198,8 +231,9 @@
 }
 
 /* ====================== */
-/* CARDS PREMIUM (SEO)   */
+/*     CARDS PREMIUM      */
 /* ====================== */
+
 .cards-section {
     margin-top: 50px;
 }
@@ -208,7 +242,7 @@
     font-size: 24px;
     font-weight: 900;
     margin-bottom: 20px;
-    color: #ffdd88;
+    color: var(--gold);
     text-transform: uppercase;
 }
 
@@ -222,42 +256,44 @@
     flex:1;
     min-width:260px;
     padding:20px;
-    border-radius:18px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+    border-radius:var(--radius);
+    background: var(--glass2);
+    border: 1px solid var(--border1);
+    box-shadow: var(--shadow2);
 }
 
 .card h3 {
-    color:#ffd166;
+    color:var(--gold);
     font-size:18px;
     margin-bottom:10px;
     font-weight:900;
 }
 
 .card p {
-    color: #e6e6e6;
-    font-size:14px;
+    color: #eee;
+    font-size:15px;
     line-height:1.6;
 }
 
 /* ========================== */
-/* SEO TEXT BLOCK (big)      */
+/*       SEO BLOCK            */
 /* ========================== */
+
 .seo-block {
     margin-top:40px;
     padding:25px;
-    border-radius:18px;
-    background: rgba(255,255,255,0.03);
-    border:1px solid rgba(255,255,255,0.08);
+    border-radius:var(--radius);
+    background: var(--glass1);
+    border:1px solid var(--border1);
     color:#ddd;
     line-height:1.7;
     font-size:15px;
 }
 
-/* ====================== */
-/* FAQ SECTION            */
-/* ====================== */
+/* ========================== */
+/*         FAQ                */
+/* ========================== */
+
 .faq-section {
     margin-top:40px;
 }
@@ -265,35 +301,46 @@
 .faq-title {
     font-size:22px;
     font-weight:900;
-    color:#ffd166;
+    color:var(--gold);
     margin-bottom:20px;
 }
 
 .faq-item {
-    background: rgba(255,255,255,0.03);
+    background: var(--glass1);
     padding:14px;
-    border-radius:14px;
+    border-radius:var(--radius);
     margin-bottom:10px;
-    border: 1px solid rgba(255,255,255,0.06);
+    border: 1px solid var(--border1);
 }
 
 .faq-item summary {
     cursor:pointer;
     font-weight:800;
-    color:#fff3c6;
+    color:var(--gold-light);
 }
 
 .faq-item p {
     margin-top:8px;
-    color:#e4e4e4;
+    color:#eee;
 }
 
-/* RESPONSIVE */
-/* RESPONSIVE */
+
+/* ========================== */
+/*       RESPONSIVE MOBILE   */
+/* ========================== */
+
 @media(max-width:900px){
     .ticket-wrapper { flex-direction: column; }
     .right-panel { width: 100%; }
+    .hero-title { font-size: 26px; }
+    .jackpot-amount { font-size: 42px; }
 }
+
+@media(max-width:600px){
+    .number-grid { grid-template-columns: repeat(6,1fr); }
+    .number-btn { width: 36px !important; height: 36px !important; }
+}
+
 </style>
 
 
