@@ -21,7 +21,7 @@
         }
 
         body{
-            padding-top: 80px; /* évite que le contenu passe sous la navbar */
+            padding-top: 10px; /* évite que le contenu passe sous la navbar */
             background:var(--dark);
             color:white;
             font-family:Inter, sans-serif;
@@ -297,6 +297,28 @@
             color:black;
         }
 
+.status-tag {
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 12px;
+    display: inline-block;
+}
+
+.status-jouer {
+    background: rgba(255, 209, 102, 0.2);
+    color: #ffd166;
+}
+
+.status-gagne {
+    background: rgba(76, 255, 140, 0.2);
+    color: #4cff8c;
+}
+
+.status-perdu {
+    background: rgba(255, 110, 110, 0.2);
+    color: #ff6e6e;
+}
 
     </style>
 </head>
@@ -324,6 +346,10 @@
 
         <a data-section="jackpots">
             <i class="fa-solid fa-clock"></i> Temps & Jackpots
+        </a>
+
+        <a data-section="tickets-user">
+            <i class="fa-solid fa-hashtag"></i> N° Misés
         </a>
 
         <div class="dropdown">
@@ -537,6 +563,50 @@
                     <button class="btn-save" style="background:#e63946;color:white;">Oui</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- SECTION : Numéros misés par les utilisateurs -->
+    <div class="section" id="tickets-user">
+        <div class="card">
+            <div class="title">Numéros misés par les utilisateurs</div>
+
+            <table class="jackpot-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Utilisateur</th>
+                        <th>Numéros</th>
+                        <th>Bonus</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach($user_tickets as $t)
+                    <tr>
+                        <td>{{ $t->created_at->format('d/m/Y H:i') }}</td>
+
+                        <td>{{ $t->user->pseudo }}</td>
+
+                        <td>{{ implode(', ', $t->numbers) }}</td>
+
+                        <td>{{ $t->bonus }}</td>
+
+                        <td>
+                            <span class="status-tag 
+                                @if($t->status === 'Jouer') status-jouer 
+                                @elseif($t->status === 'Gagné') status-gagne 
+                                @else status-perdu 
+                                @endif">
+                                {{ $t->status }}
+                            </span>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+
         </div>
     </div>
 
