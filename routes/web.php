@@ -1,10 +1,11 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\JackpotController;
 use App\Models\Jackpot;
+use App\Http\Controllers\ProfileController;
 
 
 /*
@@ -21,7 +22,7 @@ use App\Models\Jackpot;
 Route::get('/', function () {
     $jackpot_actif = Jackpot::where('status', 'Lancer')->first();
     return view('home', compact('jackpot_actif'));
-});
+})->name('home');
 
 
 
@@ -56,4 +57,14 @@ Route::middleware(['auth:admin'])->group(function () {
 
     Route::post('/admin/jackpot/delete/{jackpot}', [JackpotController::class, 'destroy'])->name('jackpot.delete');
 
+});
+
+//profils
+Route::middleware('auth')->group(function () {
+
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+
+    Route::post('/profile/update', [ProfileController::class, 'updateProfile'])->name('profile.update');
+
+    Route::post('/profile/add-funds', [ProfileController::class, 'addFunds'])->name('profile.addFunds');
 });

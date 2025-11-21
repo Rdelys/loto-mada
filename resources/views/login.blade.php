@@ -246,7 +246,7 @@
 
             <div class="form-group">
                 <label>Numéro de téléphone</label>
-                <input type="text" name="telephone" required>
+                <input type="text" name="telephone" placeholder="Numéro Orange" required>
             </div>
 
             <div class="form-group">

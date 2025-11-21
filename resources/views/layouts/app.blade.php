@@ -244,7 +244,7 @@
                 <a class="login" href="{{ route('auth.page') }}?tab=login">Connexion</a>
                 <a class="signup" href="{{ route('auth.page') }}?tab=signup">Inscription</a>
             @else
-                <a class="login" href="#">Mon compte ({{ Auth::user()->pseudo }})</a>
+                <a class="login" href="{{ route('profile') }}">Mon compte ({{ Auth::user()->pseudo }})</a>
                 <a class="signup" href="#">Solde : {{ Auth::user()->solde ?? 0 }} Ariary</a>
 
                 <form action="{{ route('logout') }}" method="POST" style="margin:0; padding:0;">
