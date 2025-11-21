@@ -21,6 +21,7 @@
         }
 
         body{
+            padding-top: 80px; /* évite que le contenu passe sous la navbar */
             background:var(--dark);
             color:white;
             font-family:Inter, sans-serif;
@@ -359,8 +360,43 @@
     <!-- DASHBOARD -->
     <div class="section active" id="dashboard">
         <div class="card">
-            <div class="title">Dashboard</div>
-            <p>Bienvenue {{ Auth::guard('admin')->user()->username }}</p>
+             @if(isset($jackpot_actif))
+            <div class="card">
+                <div class="title">Compte à rebours du Jackpot actif</div>
+
+                <p>
+                    Du <b>{{ $jackpot_actif->date_debut }}</b>  
+                    au <b>{{ $jackpot_actif->date_fin }}</b>
+                </p>
+
+                <h2 id="countdown" style="font-size:32px;font-weight:900;color:var(--gold);">
+                    Chargement...
+                </h2>
+
+            </div>
+
+            @else
+            <div class="card">
+                <div class="title">Aucun jackpot lancé</div>
+                <p>Changez le statut d’un jackpot en <b>Lancer</b> pour activer le compte à rebours.</p>
+            </div>
+            @endif
+            <div class="cards-row" style="display:flex;gap:20px;flex-wrap:wrap;margin-top:20px;">
+
+                <div class="card" style="flex:1;min-width:220px;">
+                    <div class="title">Jackpots terminés</div>
+                    <p style="font-size:26px;font-weight:900;color:var(--gold);">
+                        {{ $jackpots_termine }}
+                    </p>
+                </div>
+
+                <div class="card" style="flex:1;min-width:220px;">
+                    <div class="title">Jackpots à planifier</div>
+                    <p style="font-size:26px;font-weight:900;color:var(--gold);">
+                        {{ $jackpots_planifier }}
+                    </p>
+                </div>
+            </div>           
         </div>
     </div>
 
@@ -394,17 +430,28 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($jackpots as $j)
                     <tr>
-                        <td>2025-01-01</td>
-                        <td>2025-01-30</td>
-                        <td>5 000 000 Ar</td>
-                        <td>A planifier</td>
+                        <td>{{ $j->date_debut }}</td>
+                        <td>{{ $j->date_fin }}</td>
+                        <td>{{ number_format($j->somme, 0, ',', ' ') }} Ar</td>
+                        <td>{{ $j->status }}</td>
+
                         <td>
-                            <button class="table-btn edit" onclick="openEditJackpotModal()">Modifier</button>
-                            <button class="table-btn delete" onclick="openDeleteJackpotModal()">Supprimer</button>
+                            <button class="table-btn edit"
+                                onclick="openEditJackpotModal({{ $j->id }}, '{{ $j->date_debut }}', '{{ $j->date_fin }}', '{{ $j->somme }}', '{{ $j->status }}')">
+                                Modifier
+                            </button>
+
+                            <button class="table-btn delete"
+                                onclick="openDeleteJackpotModal({{ $j->id }})">
+                                Supprimer
+                            </button>
                         </td>
                     </tr>
+                    @endforeach
                 </tbody>
+
             </table>
         </div>
     </div>
@@ -414,26 +461,31 @@
     <div id="jackpotModal" class="modal-overlay">
         <div class="modal-box">
             <h3>Ajouter un Jackpot</h3>
+            <form method="POST" action="{{ route('jackpot.store') }}">
+                @csrf
 
-            <label>Date de début</label>
-            <input type="date">
+                <label>Date de début</label>
+                <input type="date" name="date_debut" required>
 
-            <label>Date de fin</label>
-            <input type="date">
+                <label>Date de fin</label>
+                <input type="date" name="date_fin" required>
 
-            <label>Somme du jackpot</label>
-            <input type="number" placeholder="ex: 2000000">
+                <label>Somme du jackpot</label>
+                <input type="number" name="somme" required>
 
-            <label>Status</label>
-            <select class="modal-select">
-                <option>A planifier</option>
-                <option>Lancer</option>
-            </select>
+                <label>Status</label>
+                <select name="status" class="modal-select">
+                    <option>A planifier</option>
+                    <option>Lancer</option>
+                    <option>Terminer</option>
+                </select>
 
-            <div class="modal-actions">
-                <button class="btn-cancel" onclick="closeJackpotModal()">Annuler</button>
-                <button class="btn-save">Enregistrer</button>
-            </div>
+                <div class="modal-actions">
+                    <button class="btn-cancel" type="button" onclick="closeJackpotModal()">Annuler</button>
+                    <button class="btn-save">Enregistrer</button>
+                </div>
+
+                </form>
         </div>
     </div>
 
@@ -442,25 +494,32 @@
         <div class="modal-box">
             <h3>Modifier le Jackpot</h3>
 
-            <label>Date de début</label>
-            <input type="date" value="2025-01-01">
+            <form method="POST" id="editJackpotForm">
+                @csrf
 
-            <label>Date de fin</label>
-            <input type="date" value="2025-01-30">
+                <label>Date de début</label>
+                <input type="date" id="edit_date_debut" name="date_debut">
 
-            <label>Somme du jackpot</label>
-            <input type="number" value="5000000">
+                <label>Date de fin</label>
+                <input type="date" id="edit_date_fin" name="date_fin">
 
-            <label>Status</label>
-            <select class="modal-select">
-                <option selected>A planifier</option>
-                <option>Lancer</option>
-            </select>
+                <label>Somme du jackpot</label>
+                <input type="number" id="edit_somme" name="somme">
 
-            <div class="modal-actions">
-                <button class="btn-cancel" onclick="closeEditJackpotModal()">Annuler</button>
-                <button class="btn-save">Mettre à jour</button>
-            </div>
+                <label>Status</label>
+                <select id="edit_status" name="status" class="modal-select">
+                    <option>A planifier</option>
+                    <option>Lancer</option>
+                    <option>Terminer</option>
+                </select>
+
+                <div class="modal-actions">
+                    <button class="btn-cancel" type="button" onclick="closeEditJackpotModal()">Annuler</button>
+                    <button class="btn-save">Mettre à jour</button>
+                </div>
+
+            </form>
+
         </div>
     </div>
 
@@ -468,12 +527,16 @@
     <div id="deleteJackpotModal" class="modal-overlay">
         <div class="modal-box">
             <h3>Supprimer ce jackpot ?</h3>
-            <p>Voulez-vous vraiment supprimer cette entrée ?</p>
+            <form method="POST" id="deleteJackpotForm">
+                @csrf
 
-            <div class="modal-actions">
-                <button class="btn-cancel" onclick="closeDeleteJackpotModal()">Non</button>
-                <button class="btn-save" style="background:#e63946;color:white;">Oui</button>
-            </div>
+                <p>Voulez-vous vraiment supprimer cette entrée ?</p>
+
+                <div class="modal-actions">
+                    <button class="btn-cancel" type="button" onclick="closeDeleteJackpotModal()">Non</button>
+                    <button class="btn-save" style="background:#e63946;color:white;">Oui</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -548,6 +611,78 @@ function openDeleteJackpotModal(){
 function closeDeleteJackpotModal(){
     document.getElementById("deleteJackpotModal").style.display = "none";
 }
+
+function openEditJackpotModal(id, date_debut, date_fin, somme, status){
+    document.getElementById("editJackpotModal").style.display = "flex";
+
+    // Fill form
+    document.getElementById("edit_date_debut").value = date_debut;
+    document.getElementById("edit_date_fin").value = date_fin;
+    document.getElementById("edit_somme").value = somme;
+    document.getElementById("edit_status").value = status;
+
+    // Set form action
+    document.getElementById("editJackpotForm").action =
+        "/admin/jackpot/update/" + id;
+}
+
+function openDeleteJackpotModal(id){
+    document.getElementById("deleteJackpotModal").style.display = "flex";
+    document.getElementById("deleteJackpotForm").action =
+        "/admin/jackpot/delete/" + id;
+}
+
+@if(isset($jackpot_actif))
+
+// Convertir dates depuis Laravel → JS
+let dateDebut = new Date("{{ $jackpot_actif->date_debut }} 00:00:00").getTime();
+let dateFin   = new Date("{{ $jackpot_actif->date_fin }} 23:59:59").getTime();
+
+// Timer
+setInterval(function () {
+    let now = new Date().getTime();
+
+    // Si la date n’est pas encore arrivée → Attente
+    if (now < dateDebut) {
+        let diff = dateDebut - now;
+        document.getElementById("countdown").innerHTML =
+            formatTime(diff) + " — Début dans";
+        return;
+    }
+
+    // Compte à rebours en cours
+    let diff = dateFin - now;
+
+    if (diff <= 0) {
+        document.getElementById("countdown").innerHTML = "Terminé !";
+        return;
+    }
+
+    document.getElementById("countdown").innerHTML = formatTime(diff);
+
+}, 1000);
+
+// Format JJ/MM/HH/SS
+function formatTime(ms) {
+    let seconds = Math.floor(ms / 1000);
+    let days = Math.floor(seconds / 86400);
+    seconds %= 86400;
+
+    let hours = Math.floor(seconds / 3600);
+    seconds %= 3600;
+
+    let minutes = Math.floor(seconds / 60);
+    seconds = seconds % 60;
+
+    return pad(days) + "J : " + pad(hours) + "H : " + pad(minutes) + "M : " + pad(seconds) + "S";
+}
+
+function pad(n) {
+    return (n < 10 ? "0" : "") + n;
+}
+
+@endif
+
 </script>
 
 

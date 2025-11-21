@@ -304,16 +304,39 @@
 <div class="hero">
     <div class="hero-title">Lucky Day — Tirage Officiel</div>
 
-    <p style="opacity:.8;">Prochain tirage : <strong>30/12/2027 — 22h30</strong></p>
+    @if(isset($jackpot_actif))
+        <p style="opacity:.8;">
+            Jackpot du :  
+            <strong>{{ $jackpot_actif->date_debut }} → {{ $jackpot_actif->date_fin }}</strong>
+        </p>
+    @else
+        <p style="opacity:.8;">Aucun jackpot en cours</p>
+    @endif
 
-    <div class="countdown">
-        <div class="count-box">769 <small>JOURS</small></div>
-        <div class="count-box">07 <small>HEURES</small></div>
-        <div class="count-box">03 <small>MINUTES</small></div>
-        <div class="count-box">32 <small>SECONDES</small></div>
+    @if(isset($jackpot_actif))
+    <div id="countdown-wrapper" class="countdown">
+        <div class="count-box"><span id="d">00</span> <small>JOURS</small></div>
+        <div class="count-box"><span id="h">00</span> <small>HEURES</small></div>
+        <div class="count-box"><span id="m">00</span> <small>MINUTES</small></div>
+        <div class="count-box"><span id="s">00</span> <small>SECONDES</small></div>
     </div>
+    @else
+    <div class="countdown">
+        <div class="count-box">-- <small>JOURS</small></div>
+        <div class="count-box">-- <small>HEURES</small></div>
+        <div class="count-box">-- <small>MINUTES</small></div>
+        <div class="count-box">-- <small>SECONDES</small></div>
+    </div>
+    @endif
 
-    <div class="jackpot-amount">250 000 000 Ar</div>
+
+    @if(isset($jackpot_actif))
+        <div class="jackpot-amount">
+            {{ number_format($jackpot_actif->somme, 0, ',', ' ') }} Ar
+        </div>
+    @else
+        <div class="jackpot-amount">-----</div>
+    @endif
 </div>
 
 
@@ -473,6 +496,74 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Ticket validé :\n\nNuméros : " + chosen.join(", ") + "\nBonus : " + bonus + "\nPrix : 2000 Ar");
     });
 });
+
+@if(isset($jackpot_actif))
+
+let dateDebut = new Date("{{ $jackpot_actif->date_debut }} 00:00:00").getTime();
+let dateFin   = new Date("{{ $jackpot_actif->date_fin }} 23:59:59").getTime();
+
+setInterval(function() {
+    let now = new Date().getTime();
+    let dSpan = document.getElementById("d");
+    let hSpan = document.getElementById("h");
+    let mSpan = document.getElementById("m");
+    let sSpan = document.getElementById("s");
+
+    // PAS ENCORE COMMENCÉ
+    if (now < dateDebut) {
+        let diff = dateDebut - now;
+        let t = convert(diff);
+        dSpan.innerText = t.days;
+        hSpan.innerText = t.hours;
+        mSpan.innerText = t.minutes;
+        sSpan.innerText = t.seconds;
+        return;
+    }
+
+    // COMPTE À REBOURS EN COURS
+    let diff = dateFin - now;
+
+    if (diff <= 0) {
+        dSpan.innerText = "00";
+        hSpan.innerText = "00";
+        mSpan.innerText = "00";
+        sSpan.innerText = "00";
+        return;
+    }
+
+    let t = convert(diff);
+    dSpan.innerText = t.days;
+    hSpan.innerText = t.hours;
+    mSpan.innerText = t.minutes;
+    sSpan.innerText = t.seconds;
+
+}, 1000);
+
+function convert(ms) {
+    let seconds = Math.floor(ms / 1000);
+    let days = Math.floor(seconds / 86400);
+    seconds %= 86400;
+
+    let hours = Math.floor(seconds / 3600);
+    seconds %= 3600;
+
+    let minutes = Math.floor(seconds / 60);
+    seconds %= 60;
+
+    return {
+        days: pad(days),
+        hours: pad(hours),
+        minutes: pad(minutes),
+        seconds: pad(seconds),
+    };
+}
+
+function pad(n) {
+    return (n < 10 ? "0" : "") + n;
+}
+
+@endif
+
 </script>
 
 @endsection

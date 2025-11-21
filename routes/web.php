@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\JackpotController;
+use App\Models\Jackpot;
 
 
 /*
@@ -17,9 +19,9 @@ use App\Http\Controllers\AdminAuthController;
 */
 
 Route::get('/', function () {
-    return view('home');
-})->name('home');
-
+    $jackpot_actif = Jackpot::where('status', 'Lancer')->first();
+    return view('home', compact('jackpot_actif'));
+});
 
 
 
@@ -42,3 +44,16 @@ Route::get('/admin/dashboard', function () {
 
 // Déconnexion admin
 Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+
+//jackpots
+Route::middleware(['auth:admin'])->group(function () {
+
+    Route::get('/admin/dashboard', [JackpotController::class, 'index'])->name('admin.dashboard');
+
+    Route::post('/admin/jackpot/store', [JackpotController::class, 'store'])->name('jackpot.store');
+
+    Route::post('/admin/jackpot/update/{jackpot}', [JackpotController::class, 'update'])->name('jackpot.update');
+
+    Route::post('/admin/jackpot/delete/{jackpot}', [JackpotController::class, 'destroy'])->name('jackpot.delete');
+
+});
