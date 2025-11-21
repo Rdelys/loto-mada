@@ -7,6 +7,8 @@ use App\Http\Controllers\JackpotController;
 use App\Models\Jackpot;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\TirageController;
+
 
 
 /*
@@ -72,3 +74,9 @@ Route::middleware('auth')->group(function () {
 
 //tickets
 Route::post('/ticket/store', [TicketController::class, 'store'])->name('ticket.store');
+
+
+//tirage
+Route::post('/admin/tirage/generer', [TirageController::class, 'generer'])
+    ->middleware('auth:admin')
+    ->name('tirage.generer');

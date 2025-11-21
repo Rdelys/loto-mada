@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Admin – Dashboard Loto Mada</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- FONT AWESOME -->
     <link rel="stylesheet"
@@ -430,9 +431,13 @@
     <div class="section" id="tirage">
         <div class="card">
             <div class="title">Gestion des Tirages</div>
-            <p>Création, validation et contrôle des tirages.</p>
+
+            <button class="btn-gold" onclick="genererTirage()">🎯 Lancer un tirage</button>
+
+            <p id="resultat-tirage" style="margin-top:20px;"></p>
         </div>
     </div>
+
 
     <!-- JACKPOTS -->
     <div class="section" id="jackpots">
@@ -752,9 +757,31 @@ function pad(n) {
 }
 
 @endif
+function genererTirage() {
 
+    fetch("/admin/tirage/generer", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+    },
+    body: JSON.stringify({}) // ← OBLIGATOIRE
+})
+
+    .then(res => res.json())
+    .then(data => {
+
+        if (data.error) {
+            alert(data.error);
+            return;
+        }
+
+        document.getElementById("resultat-tirage").innerHTML =
+            `<b>Numéros :</b> ${data.numbers.join(', ')}
+             <br><b>Bonus :</b> ${data.bonus}
+             <br><b>Gagnant :</b> ${data.winner_id ? 'Utilisateur #' + data.winner_id : 'Aucun'}`;
+    });
+}
 </script>
-
-
 </body>
 </html>
