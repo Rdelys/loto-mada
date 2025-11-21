@@ -235,7 +235,7 @@
         <div class="menu">
             <a href="/">Accueil</a>
             <!-- <a href="#">Jeux</a> -->
-            <a href="#">Résultats</a>
+            <a href="{{ route('resultats') }}">Résultats</a>
         </div>
 
         <div class="brand brand-small">Loto Mada</div>

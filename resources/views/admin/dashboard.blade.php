@@ -83,36 +83,43 @@
         }
 
         /* SUBMENU */
-        .dropdown{
-            position:relative;
-        }
+.dropdown {
+    position: relative;
+}
 
-        .dropdown-menu{
-            position:absolute;
-            top:45px;
-            left:0;
-            background:rgba(255,255,255,0.08);
-            backdrop-filter:blur(10px);
-            padding:10px 0;
-            border-radius:var(--radius);
-            border:1px solid rgba(255,255,255,0.15);
-            display:none;
-            flex-direction:column;
-            min-width:200px;
-        }
+.dropdown > a {
+    cursor: pointer;
+}
 
-        .dropdown:hover .dropdown-menu{
-            display:flex;
-        }
+.dropdown-menu {
+    position: absolute;
+    top: 45px;
+    left: 0;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    padding: 10px 0;
+    border-radius: var(--radius);
+    min-width: 200px;
+    display: none;
+    flex-direction: column;
+    z-index: 9999;
+}
 
-        .dropdown-menu a{
-            padding:12px 18px;
-            font-size:14px;
-        }
+.dropdown.open .dropdown-menu {
+    display: flex;
+}
 
-        .dropdown-menu a:hover{
-            background:rgba(255,255,255,0.15);
-        }
+.dropdown-menu a {
+    padding: 12px 18px;
+    font-size: 14px;
+    color: var(--gold);
+}
+
+.dropdown-menu a:hover {
+    background: rgba(255,255,255,0.15);
+}
+
 
         /* MOBILE MENU */
         .hamburger{
@@ -676,18 +683,96 @@
     <!-- VAINQUEURS -->
     <div class="section" id="vainqueurs">
         <div class="card">
-            <div class="title">Vainqueurs</div>
-            <p>Liste des gagnants.</p>
+            <div class="title">Liste des Vainqueurs</div>
+            <p>Retrouvez ici tous les tirages ayant eu un gagnant officiel.</p>
+
+            <table class="jackpot-table">
+                <thead>
+                    <tr>
+                        <th>Date du tirage</th>
+                        <th>Gagnant</th>
+                        <th>Téléphone</th>
+                        <th>Numéros gagnants</th>
+                        <th>Bonus</th>
+                        <th>Jackpot</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                @php
+                    $vainqueurs = $tirages->whereNotNull('winner_id');
+                @endphp
+
+                @if($vainqueurs->isEmpty())
+                    <tr>
+                        <td colspan="6" style="text-align:center; opacity:0.8; padding:20px;">
+                            Aucun vainqueur pour le moment.
+                        </td>
+                    </tr>
+                @else
+                    @foreach($vainqueurs as $v)
+                        <tr>
+                            <td>{{ $v->created_at->format('d/m/Y H:i') }}</td>
+
+                            <td>
+                                <strong>{{ $v->winner->pseudo }}</strong><br>
+                                <small>{{ $v->winner->nom }} {{ $v->winner->prenom }}</small>
+                            </td>
+
+                            <td>{{ $v->winner->telephone }}</td>
+
+                            <td>{{ implode(', ', $v->numbers) }}</td>
+
+                            <td>{{ $v->bonus }}</td>
+
+                            <td style="font-weight:700; color:#ffd166;">
+                                {{ number_format($v->jackpot_somme, 0, ',', ' ') }} Ar
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
+                </tbody>
+            </table>
         </div>
     </div>
+
 
     <!-- UTILISATEURS -->
     <div class="section" id="utilisateurs">
         <div class="card">
             <div class="title">Liste des utilisateurs</div>
-            <p>Gestion des comptes joueurs.</p>
+
+            <table class="jackpot-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Pseudo</th>
+                        <th>Nom complet</th>
+                        <th>Email</th>
+                        <th>Téléphone</th>
+                        <th>Solde</th>
+                        <th>Date d'inscription</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                @foreach($users as $u)
+                    <tr>
+                        <td>{{ $u->id }}</td>
+                        <td>{{ $u->pseudo }}</td>
+                        <td>{{ $u->nom }} {{ $u->prenom }}</td>
+                        <td>{{ $u->email }}</td>
+                        <td>{{ $u->telephone }}</td>
+                        <td>{{ number_format($u->solde, 0, ',', ' ') }} Ar</td>
+                        <td>{{ $u->created_at->format('d/m/Y H:i') }}</td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+
         </div>
     </div>
+
 
 </div>
 
@@ -709,6 +794,26 @@ document.querySelectorAll(".nav-links a[data-section]").forEach(btn => {
 
         document.getElementById("navLinks").classList.remove("show");
     });
+});
+
+document.querySelectorAll(".dropdown > a").forEach(drop => {
+    drop.addEventListener("click", function(e){
+        e.stopPropagation(); 
+        let parent = this.parentElement;
+
+        // Fermer tous les dropdowns
+        document.querySelectorAll(".dropdown").forEach(d => {
+            if(d !== parent) d.classList.remove("open");
+        });
+
+        // Toggle actuel
+        parent.classList.toggle("open");
+    });
+});
+
+// Fermer si on clique ailleurs
+document.addEventListener("click", () => {
+    document.querySelectorAll(".dropdown").forEach(d => d.classList.remove("open"));
 });
 
 function openJackpotModal(){

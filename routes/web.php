@@ -8,6 +8,7 @@ use App\Models\Jackpot;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\TirageController;
+use App\Models\Tirage;
 
 
 
@@ -80,3 +81,9 @@ Route::post('/ticket/store', [TicketController::class, 'store'])->name('ticket.s
 Route::post('/admin/tirage/generer', [TirageController::class, 'generer'])
     ->middleware('auth:admin')
     ->name('tirage.generer');
+
+//Resultats
+Route::get('/resultats', function () {
+    $tirages = Tirage::orderBy('id', 'desc')->get();
+    return view('resultats', compact('tirages'));
+})->name('resultats');
