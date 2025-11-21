@@ -21,8 +21,6 @@
         }
 
         body{
-            margin:0;
-            padding:0;
             background:var(--dark);
             color:white;
             font-family:Inter, sans-serif;
@@ -175,9 +173,6 @@
         /* CARD */
         .card{
             padding:30px;
-            border-radius:var(--radius);
-            background:rgba(255,255,255,0.05);
-            border:1px solid rgba(255,255,255,0.12);
             backdrop-filter:blur(12px);
             margin-bottom:30px;
         }
@@ -188,6 +183,119 @@
             margin-bottom:8px;
             color:var(--gold);
         }
+
+        /* BTN GOLD */
+        .btn-gold{
+            background:var(--gold);
+            color:black;
+            padding:10px 16px;
+            border:none;
+            border-radius:var(--radius);
+            font-weight:600;
+            cursor:pointer;
+            transition:var(--transition);
+            margin-bottom:20px;
+        }
+
+        .btn-gold:hover{
+            background:var(--gold-light);
+        }
+
+        /* TABLE */
+        .jackpot-table{
+            width:100%;
+            border-collapse:collapse;
+            background:rgba(255,255,255,0.05);
+            border-radius:var(--radius);
+            overflow:hidden;
+            margin-top:20px;
+        }
+
+        .jackpot-table th, .jackpot-table td{
+            padding:14px;
+            text-align:left;
+        }
+
+        .jackpot-table tr:nth-child(even){
+            background:rgba(255,255,255,0.03);
+        }
+
+        .table-btn{
+            padding:6px 12px;
+            border:none;
+            border-radius:var(--radius);
+            cursor:pointer;
+        }
+
+        .table-btn.edit{ background:#4ea8de; }
+        .table-btn.delete{ background:#e63946; }
+
+        /* MODAL */
+        .modal-overlay{
+            position:fixed;
+            top:0; left:0;
+            width:100%; height:100%;
+            background:rgba(0,0,0,0.65);
+            display:none;
+            justify-content:center;
+            align-items:center;
+            z-index:5000;
+        }
+
+        .modal-box{
+            background:var(--glass);
+            padding:30px;
+            width:360px;
+            border-radius:var(--radius);
+            border:1px solid rgba(255,255,255,0.15);
+            backdrop-filter:blur(12px);
+        }
+
+        .modal-box input{
+            width:100%;
+            padding:10px;
+            margin:6px 0 15px 0;
+            border-radius:var(--radius);
+            border:none;
+        }
+
+        .modal-actions{
+            display:flex;
+            justify-content:flex-end;
+            gap:10px;
+        }
+
+        .btn-cancel{
+            background:#aaa;
+            padding:8px 12px;
+            border:none;
+            border-radius:var(--radius);
+        }
+
+        .btn-save{
+            background:var(--gold);
+            padding:8px 12px;
+            border:none;
+            border-radius:var(--radius);
+            color:black;
+            font-weight:700;
+        }
+
+        #deleteJackpotModal p{
+            margin:15px 0;
+            opacity:0.8;
+        }
+
+        .modal-box select.modal-select{
+            width:100%;
+            padding:10px;
+            margin:6px 0 15px 0;
+            border-radius:var(--radius);
+            border:none;
+            background:white;
+            color:black;
+        }
+
 
     </style>
 </head>
@@ -268,9 +376,108 @@
     <div class="section" id="jackpots">
         <div class="card">
             <div class="title">Temps & Jackpots</div>
-            <p>Configurer le compte à rebours et la cagnotte.</p>
+
+            <!-- Bouton d’ouverture de la modal -->
+            <button class="btn-gold" onclick="openJackpotModal()">
+                <i class="fa-solid fa-plus"></i> Ajouter un jackpot
+            </button>
+
+            <!-- Tableau statique -->
+            <table class="jackpot-table">
+                <thead>
+                    <tr>
+                        <th>Date début</th>
+                        <th>Date fin</th>
+                        <th>Somme</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2025-01-01</td>
+                        <td>2025-01-30</td>
+                        <td>5 000 000 Ar</td>
+                        <td>A planifier</td>
+                        <td>
+                            <button class="table-btn edit" onclick="openEditJackpotModal()">Modifier</button>
+                            <button class="table-btn delete" onclick="openDeleteJackpotModal()">Supprimer</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
+
+    <!-- Modal Jackpots -->
+    <!-- Modal -->
+    <div id="jackpotModal" class="modal-overlay">
+        <div class="modal-box">
+            <h3>Ajouter un Jackpot</h3>
+
+            <label>Date de début</label>
+            <input type="date">
+
+            <label>Date de fin</label>
+            <input type="date">
+
+            <label>Somme du jackpot</label>
+            <input type="number" placeholder="ex: 2000000">
+
+            <label>Status</label>
+            <select class="modal-select">
+                <option>A planifier</option>
+                <option>Lancer</option>
+            </select>
+
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeJackpotModal()">Annuler</button>
+                <button class="btn-save">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Modification -->
+    <div id="editJackpotModal" class="modal-overlay">
+        <div class="modal-box">
+            <h3>Modifier le Jackpot</h3>
+
+            <label>Date de début</label>
+            <input type="date" value="2025-01-01">
+
+            <label>Date de fin</label>
+            <input type="date" value="2025-01-30">
+
+            <label>Somme du jackpot</label>
+            <input type="number" value="5000000">
+
+            <label>Status</label>
+            <select class="modal-select">
+                <option selected>A planifier</option>
+                <option>Lancer</option>
+            </select>
+
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeEditJackpotModal()">Annuler</button>
+                <button class="btn-save">Mettre à jour</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Suppression -->
+    <div id="deleteJackpotModal" class="modal-overlay">
+        <div class="modal-box">
+            <h3>Supprimer ce jackpot ?</h3>
+            <p>Voulez-vous vraiment supprimer cette entrée ?</p>
+
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeDeleteJackpotModal()">Non</button>
+                <button class="btn-save" style="background:#e63946;color:white;">Oui</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fin Jackpots -->
 
     <!-- LISTE TIRAGES -->
     <div class="section" id="liste-tirages">
@@ -318,7 +525,31 @@ document.querySelectorAll(".nav-links a[data-section]").forEach(btn => {
     });
 });
 
+function openJackpotModal(){
+    document.getElementById("jackpotModal").style.display = "flex";
+}
+
+function closeJackpotModal(){
+    document.getElementById("jackpotModal").style.display = "none";
+}
+
+function openEditJackpotModal(){
+    document.getElementById("editJackpotModal").style.display = "flex";
+}
+
+function closeEditJackpotModal(){
+    document.getElementById("editJackpotModal").style.display = "none";
+}
+
+function openDeleteJackpotModal(){
+    document.getElementById("deleteJackpotModal").style.display = "flex";
+}
+
+function closeDeleteJackpotModal(){
+    document.getElementById("deleteJackpotModal").style.display = "none";
+}
 </script>
+
 
 </body>
 </html>
