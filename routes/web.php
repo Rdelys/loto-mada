@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\JackpotController;
 use App\Models\Jackpot;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TicketController;
 
 
 /*
@@ -68,3 +69,6 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/profile/add-funds', [ProfileController::class, 'addFunds'])->name('profile.addFunds');
 });
+
+//tickets
+Route::post('/ticket/store', [TicketController::class, 'store'])->name('ticket.store');

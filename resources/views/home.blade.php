@@ -482,21 +482,38 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    document.querySelector(".buy-btn").addEventListener("click", () => {
-        const chosen = [...document.querySelectorAll(".day-btn.active")].map(x => x.textContent);
-        const bonus = document.querySelector(".month-btn.active")?.textContent;
+   document.querySelector(".buy-btn").addEventListener("click", () => {
 
-        if(chosen.length !== 5) {
-            alert("Veuillez choisir exactement 5 numéros.");
-            return;
-        }
-        if(!bonus) {
-            alert("Veuillez sélectionner votre numéro bonus.");
-            return;
-        }
+    const chosen = [...document.querySelectorAll(".day-btn.active")].map(x => x.textContent);
+    const bonus = document.querySelector(".month-btn.active")?.textContent;
 
-        alert("Ticket validé :\n\nNuméros : " + chosen.join(", ") + "\nBonus : " + bonus + "\nPrix : 2000 Ar");
+    if(chosen.length !== 5){
+        alert("Choisissez 5 numéros.");
+        return;
+    }
+    if(!bonus){
+        alert("Choisissez le bonus.");
+        return;
+    }
+
+    fetch("/ticket/store", {
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json",
+            "X-CSRF-TOKEN":document.querySelector('meta[name="csrf-token"]').content
+        },
+        body:JSON.stringify({
+            numbers: chosen,
+            bonus: bonus,
+            jackpot_id: "{{ $jackpot_actif->id ?? null }}"
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+alert("Ticket enregistré !");
     });
+});
+
 });
 
 @if(isset($jackpot_actif))

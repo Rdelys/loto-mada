@@ -23,4 +23,10 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    // 🔥 Relation à ajouter
+    public function tickets()
+    {
+        return $this->hasMany(\App\Models\UserTicket::class);
+    }
 }

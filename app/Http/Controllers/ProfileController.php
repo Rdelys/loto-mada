@@ -4,12 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\UserTicket;
+
 
 class ProfileController extends Controller
 {
+
     public function index()
     {
-        return view('profile', ['user' => Auth::user()]);
+        $user = Auth::user();
+        $tickets = $user->tickets()->orderBy('created_at','desc')->get();
+
+        return view('profile', compact('user','tickets'));
     }
 
     public function updateProfile(Request $request)

@@ -5,7 +5,55 @@
 
 @section('content')
 <style>
-/* Container principal */
+    
+    /* ===== TABLE HISTORY ===== */
+.ticket-table {
+    width: 100%;
+    margin-top: 12px;
+    border-collapse: collapse;
+    font-size: 14px;
+    color: #fff;
+}
+
+.ticket-table th {
+    text-align: left;
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.06);
+    color: #ffd166;
+    font-weight: 800;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.ticket-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+/* Status tag */
+.status-tag {
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 12px;
+    display: inline-block;
+}
+
+/* Couleurs selon le status */
+.status-jouer {
+    background: rgba(255, 209, 102, 0.2);
+    color: #ffd166;
+}
+
+.status-gagne {
+    background: rgba(76, 255, 140, 0.2);
+    color: #4cff8c;
+}
+
+.status-perdu {
+    background: rgba(255, 110, 110, 0.2);
+    color: #ff6e6e;
+}
+
 .profile-wrap {
   max-width:1100px;
   margin: 0 auto 60px;
@@ -168,6 +216,46 @@ a {
     <p style="margin:0 0 8px 0;">Pseudo: <strong id="sidePseudo">{{ $user->pseudo }}</strong></p>
     <p style="margin:0 0 8px 0;">Solde: <strong id="sideSolde">{{ number_format($user->solde ?? 0, 0, ',', ' ') }} Ar</strong></p>
   </div>
+</div>
+<div class="profile-card" style="margin-top:25px;">
+    <h3 style="color:#ffd166;">Historique des Tickets</h3>
+
+    @if($tickets->isEmpty())
+        <p style="opacity:0.7;">Aucun ticket joué pour le moment.</p>
+    @else
+        <table class="ticket-table">
+    <tr>
+        <th>Date</th>
+        <th>Numéros</th>
+        <th>Bonus</th>
+        <th>Status</th>
+    </tr>
+
+    @foreach($tickets as $t)
+            <tr>
+                <td>{{ $t->created_at->format('d/m/Y H:i') }}</td>
+                <td>{{ implode(', ', $t->numbers) }}</td>
+                <td>{{ $t->bonus }}</td>
+
+                <td>
+                    @php
+                        $statusClass = match(strtolower($t->status)) {
+                            'jouer' => 'status-jouer',
+                            'gagné', 'gagne' => 'status-gagne',
+                            'perdu' => 'status-perdu',
+                            default => 'status-jouer'
+                        };
+                    @endphp
+
+                    <span class="status-tag {{ $statusClass }}">
+                        {{ ucfirst($t->status) }}
+                    </span>
+                </td>
+            </tr>
+            @endforeach
+        </table>
+
+    @endif
 </div>
 
 @endsection
